@@ -335,6 +335,7 @@ Unauthorised distribution, reproduction, or modification is prohibited.
 <div align="center">
 
 **VAMSYS · VANTIS AIR CARGO · FLEET INTELLIGENCE DIVISION**
+
 FLY SMART. FLY HEAVY. FLY VANTIS
 
 *31 Frames. Three Emblem Series. One Platform.*
