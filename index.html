@@ -462,11 +462,6 @@
     ║  • No dependencies, no build step, no npm install        ║
     ║  • Rename to index.html for root-level serving           ║
     ╠══════════════════════════════════════════════════════════╣
-    ║  DEFAULT CREDENTIALS:                                    ║
-    ║  Operator ID : VANTIS-OPS                                ║
-    ║  Access Code : VX2026                                    ║
-    ║  (Change in JS — search for: DEFAULT_CREDENTIALS)        ║
-    ╠══════════════════════════════════════════════════════════╣
     ║  API INTEGRATION:                                        ║
     ║  Use ⚙ API CONFIG panel to connect a live endpoint.      ║
     ║  Expected JSON: array of fleet objects (see schema).     ║
@@ -676,45 +671,6 @@
         .mobile-menu-toggle { display: none !important; }
       }
 
-      /* ─── LOGIN GATE ─── */
-      #login-gate {
-        position: fixed; inset: 0; z-index: 9999; background: #0a0a14;
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        transition: opacity 600ms ease;
-      }
-      #login-gate.fade-out { opacity: 0; pointer-events: none; }
-      #login-gate .gate-scanline {
-        background-image:
-          repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(124,58,237,0.03) 2px, rgba(124,58,237,0.03) 4px),
-          repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(124,58,237,0.04) 40px, rgba(124,58,237,0.04) 41px);
-        position: absolute; inset: 0; pointer-events: none;
-      }
-      .login-input {
-        background: #0f0f1e; border: 1px solid #7c3aed; color: #a78bfa;
-        font-family: 'Space Mono', monospace; padding: 12px 16px;
-        border-radius: 6px; outline: none; width: 100%; font-size: 13px;
-        transition: border-color 0.2s, box-shadow 0.2s;
-      }
-      .login-input:focus { border-color: #a78bfa; box-shadow: 0 0 15px rgba(124,58,237,0.3); }
-      .login-input::placeholder { color: #4b5563; }
-      .auth-btn {
-        background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #f1f0ff;
-        font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px;
-        letter-spacing: 2px; padding: 12px 32px; border: 1px solid #a78bfa;
-        border-radius: 6px; cursor: pointer; transition: all 0.3s ease;
-        box-shadow: 0 0 20px rgba(124,58,237,0.3);
-      }
-      .auth-btn:hover {
-        box-shadow: 0 0 30px rgba(124,58,237,0.5), 0 0 60px rgba(124,58,237,0.2);
-        transform: translateY(-1px);
-      }
-      @keyframes shakeForm {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-        20%, 40%, 60%, 80% { transform: translateX(8px); }
-      }
-      .shake { animation: shakeForm 0.5s ease-in-out; }
-
       /* ─── API CONFIG PANEL ─── */
       #api-config-panel {
         position: fixed; top: 0; right: -360px; width: 340px; height: 100%;
@@ -906,9 +862,172 @@
       }
       .gate-pulse-ring { animation: gatePulse 2s ease-in-out infinite alternate; }
 
+      /* ─── LOGIN GATE STYLES ─── */
+      #loginGate {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(ellipse at center, #0d0820 0%, #050508 100%);
+      }
+      #loginGate .login-branding {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      #loginGate .login-branding .brand-label {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: #a78bfa;
+        letter-spacing: 0.2em;
+        margin-bottom: 4px;
+      }
+      #loginGate .login-branding .brand-title {
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 48px;
+        font-weight: 700;
+        color: #f1f0ff;
+        letter-spacing: 0.15em;
+        line-height: 1.1;
+      }
+      #loginGate .login-branding .brand-subtitle {
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        color: #22d3ee;
+        letter-spacing: 0.2em;
+        margin-top: 4px;
+      }
+      #loginGate .login-branding .brand-divider {
+        width: 80px;
+        height: 1px;
+        background: #7c3aed;
+        margin: 16px auto 0;
+        opacity: 0.6;
+      }
+      #loginCard {
+        background: #0f0f1e;
+        border: 1px solid #2a1f4e;
+        border-radius: 8px;
+        padding: 40px;
+        width: 380px;
+        max-width: 90vw;
+        position: relative;
+      }
+      #loginCard .login-live-dot {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #7c3aed;
+        animation: loginDotPulse 2s ease-in-out infinite;
+      }
+      @keyframes loginDotPulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(0.8); }
+      }
+      #loginCard .login-header {
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #a78bfa;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      #loginCard .login-field-label {
+        display: block;
+        font-family: 'Space Mono', monospace;
+        font-size: 10px;
+        color: #6b7280;
+        letter-spacing: 0.15em;
+        margin-bottom: 6px;
+      }
+      #loginCard .login-input {
+        background: #0a0a14;
+        border: 1px solid #2a1f4e;
+        color: #f1f0ff;
+        font-family: 'Space Mono', monospace;
+        font-size: 12px;
+        padding: 10px 14px;
+        width: 100%;
+        border-radius: 4px;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      #loginCard .login-input:focus {
+        border-color: #7c3aed;
+      }
+      #loginCard .login-input::placeholder {
+        color: #4b5563;
+        font-size: 11px;
+      }
+      #loginCard .login-field-group {
+        margin-bottom: 18px;
+      }
+      #loginCard .login-submit-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #7c3aed, #4c1d95);
+        color: #ffffff;
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        padding: 12px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        transition: filter 0.2s;
+        text-transform: uppercase;
+      }
+      #loginCard .login-submit-btn:hover {
+        filter: brightness(1.1);
+      }
+      #loginError {
+        display: none;
+        color: #f87171;
+        font-family: 'Space Mono', monospace;
+        font-size: 11px;
+        text-align: center;
+        margin-top: 12px;
+      }
+      #loginCard .login-footer {
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #2a1f4e;
+        text-align: center;
+        margin-top: 24px;
+        letter-spacing: 0.1em;
+      }
+      #loginGate .login-bottom-text {
+        position: absolute;
+        bottom: 24px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-family: 'Space Mono', monospace;
+        font-size: 9px;
+        color: #1e1235;
+        letter-spacing: 0.1em;
+      }
+
+      @keyframes loginShake {
+        0%, 100% { transform: translateX(0); }
+        15% { transform: translateX(-8px); }
+        30% { transform: translateX(8px); }
+        45% { transform: translateX(-6px); }
+        60% { transform: translateX(6px); }
+        75% { transform: translateX(-3px); }
+        90% { transform: translateX(3px); }
+      }
+      .shake { animation: loginShake 0.5s ease-in-out; }
+
       /* ─── PRINT STYLES ─── */
       @media print {
-        #login-gate, #main-header-h8x2, #nav-tabs-n4r2, #filter-bar-f2x9,
+        #main-header-h8x2, #nav-tabs-n4r2, #filter-bar-f2x9,
         #footer-f0g1, #export-modal-m9z1, #print-modal-p1m1, #api-config-panel,
         #api-config-backdrop, .detail-toggle, .tab-btn, .mobile-menu-m1n2,
         #mobile-menu-m1n2, button { display: none !important; }
@@ -961,96 +1080,96 @@
         .fleet-card::after {
           counter-increment: page-num;
         }
+
+        #loginGate { display: none !important; }
       }
 
       #print-header-ph1 { display: none; }
     </style>
-<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:Space Mono, monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.bottom-6{bottom:1.5rem}.left-0{left:0px}.left-3{left:0.75rem}.right-0{right:0px}.top-0{top:0px}.top-1\/2{top:50%}.z-10{z-index:10}.z-50{z-index:50}.z-\[60\]{z-index:60}.col-span-2{grid-column:span 2 / span 2}.mx-4{margin-left:1rem;margin-right:1rem}.mx-auto{margin-left:auto;margin-right:auto}.my-10{margin-top:2.5rem;margin-bottom:2.5rem}.my-2{margin-top:0.5rem;margin-bottom:0.5rem}.mb-1{margin-bottom:0.25rem}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-1{margin-left:0.25rem}.mr-1{margin-right:0.25rem}.mr-2{margin-right:0.5rem}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-10{margin-top:2.5rem}.mt-3{margin-top:0.75rem}.mt-8{margin-top:2rem}.mb-4{margin-bottom:1rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.block{display:block}.inline{display:inline}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-3{height:0.75rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-8{height:2rem}.max-h-\[80vh\]{max-height:80vh}.w-3{width:0.75rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-full{width:100%}.w-8{width:2rem}.min-w-0{min-width:0px}.max-w-2xl{max-width:42rem}.max-w-\[1600px\]{max-width:1600px}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.-translate-y-1\/2{--tw-translate-y:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.items-stretch{align-items:stretch}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-x-4{column-gap:1rem}.gap-y-1\.5{row-gap:0.375rem}.gap-y-2{row-gap:0.5rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.self-end{align-self:flex-end}.self-center{align-self:center}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.whitespace-pre-wrap{white-space:pre-wrap}.rounded-xl{border-radius:0.75rem}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-vborder{--tw-border-opacity:1;border-color:rgb(30 30 53 / var(--tw-border-opacity, 1))}.border-vborder\/50{border-color:rgb(30 30 53 / 0.5)}.bg-vbg-1{--tw-bg-opacity:1;background-color:rgb(10 10 20 / var(--tw-bg-opacity, 1))}.bg-vbg-1\/95{background-color:rgb(10 10 20 / 0.95)}.bg-vbg-2{--tw-bg-opacity:1;background-color:rgb(15 15 30 / var(--tw-bg-opacity, 1))}.bg-vbg-3{--tw-bg-opacity:1;background-color:rgb(19 19 31 / var(--tw-bg-opacity, 1))}.bg-vbg-4{--tw-bg-opacity:1;background-color:rgb(26 26 46 / var(--tw-bg-opacity, 1))}.bg-vbg-2\/30{background-color:rgb(15 15 30 / 0.3)}.bg-vbg-3\/30{background-color:rgb(19 19 31 / 0.3)}.p-2{padding:0.5rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-4{padding:1rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.pt-2{padding-top:0.5rem}.pt-3{padding-top:0.75rem}.pt-6{padding-top:1.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.align-middle{vertical-align:middle}.font-inter{font-family:Inter, sans-serif}.font-mono{font-family:Space Mono, monospace}.font-raj{font-family:Rajdhani, sans-serif}.text-2xl{font-size:1.5rem;line-height:2rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[9px\]{font-size:9px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tabular-nums{--tw-numeric-spacing:tabular-nums;font-variant-numeric:var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.tracking-wide{letter-spacing:0.025em}.text-vcyan{--tw-text-opacity:1;color:rgb(34 211 238 / var(--tw-text-opacity, 1))}.text-vtext-1{--tw-text-opacity:1;color:rgb(241 240 255 / var(--tw-text-opacity, 1))}.text-vtext-2{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-vtext-3{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-vviolet-light{--tw-text-opacity:1;color:rgb(167 139 250 / var(--tw-text-opacity, 1))}.opacity-60{opacity:0.6}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-vbg-4\/60:hover{background-color:rgb(26 26 46 / 0.6)}.hover\:bg-vviolet-base\/10:hover{background-color:rgb(124 58 237 / 0.1)}.hover\:text-vtext-1:hover{--tw-text-opacity:1;color:rgb(241 240 255 / var(--tw-text-opacity, 1))}@media (min-width: 768px){.md\:table-cell{display:table-cell}.md\:h-14{height:3.5rem}.md\:w-14{width:3.5rem}.md\:max-w-xs{max-width:20rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-end{align-items:flex-end}.md\:items-center{align-items:center}.md\:justify-between{justify-content:space-between}.md\:gap-3{gap:0.75rem}.md\:gap-4{gap:1rem}.md\:gap-5{gap:1.25rem}.md\:gap-8{gap:2rem}.md\:p-5{padding:1.25rem}.md\:p-6{padding:1.5rem}.md\:px-6{padding-left:1.5rem;padding-right:1.5rem}.md\:py-5{padding-top:1.25rem;padding-bottom:1.25rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-3xl{font-size:1.875rem;line-height:2.25rem}.md\:text-\[10px\]{font-size:10px}.md\:text-\[11px\]{font-size:11px}.md\:text-xs{font-size:0.75rem;line-height:1rem}}@media (min-width: 1024px){.lg\:table-cell{display:table-cell}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}</style></head>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:Space Mono, monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0px}.left-3{left:0.75rem}.top-0{top:0px}.top-1\/2{top:50%}.z-10{z-index:10}.z-50{z-index:50}.z-\[60\]{z-index:60}.col-span-2{grid-column:span 2 / span 2}.mx-4{margin-left:1rem;margin-right:1rem}.mx-auto{margin-left:auto;margin-right:auto}.my-10{margin-top:2.5rem;margin-bottom:2.5rem}.my-2{margin-top:0.5rem;margin-bottom:0.5rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-1{margin-left:0.25rem}.mr-1{margin-right:0.25rem}.mr-2{margin-right:0.5rem}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-10{margin-top:2.5rem}.mt-3{margin-top:0.75rem}.mt-8{margin-top:2rem}.mb-1{margin-bottom:0.25rem}.mb-4{margin-bottom:1rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.block{display:block}.inline{display:inline}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-3{height:0.75rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-8{height:2rem}.max-h-\[80vh\]{max-height:80vh}.w-3{width:0.75rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-full{width:100%}.w-8{width:2rem}.min-w-0{min-width:0px}.max-w-2xl{max-width:42rem}.max-w-\[1600px\]{max-width:1600px}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.-translate-y-1\/2{--tw-translate-y:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.items-stretch{align-items:stretch}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-x-4{column-gap:1rem}.gap-y-1\.5{row-gap:0.375rem}.gap-y-2{row-gap:0.5rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.self-end{align-self:flex-end}.self-center{align-self:center}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.whitespace-pre-wrap{white-space:pre-wrap}.rounded-xl{border-radius:0.75rem}.rounded{border-radius:0.25rem}.rounded-lg{border-radius:0.5rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-vborder{--tw-border-opacity:1;border-color:rgb(30 30 53 / var(--tw-border-opacity, 1))}.border-vborder\/50{border-color:rgb(30 30 53 / 0.5)}.bg-vbg-1{--tw-bg-opacity:1;background-color:rgb(10 10 20 / var(--tw-bg-opacity, 1))}.bg-vbg-1\/95{background-color:rgb(10 10 20 / 0.95)}.bg-vbg-2{--tw-bg-opacity:1;background-color:rgb(15 15 30 / var(--tw-bg-opacity, 1))}.bg-vbg-3{--tw-bg-opacity:1;background-color:rgb(19 19 31 / var(--tw-bg-opacity, 1))}.bg-vbg-4{--tw-bg-opacity:1;background-color:rgb(26 26 46 / var(--tw-bg-opacity, 1))}.bg-vbg-2\/30{background-color:rgb(15 15 30 / 0.3)}.bg-vbg-3\/30{background-color:rgb(19 19 31 / 0.3)}.p-2{padding:0.5rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-4{padding:1rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.pt-2{padding-top:0.5rem}.pt-3{padding-top:0.75rem}.pt-6{padding-top:1.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.align-middle{vertical-align:middle}.font-inter{font-family:Inter, sans-serif}.font-mono{font-family:Space Mono, monospace}.font-raj{font-family:Rajdhani, sans-serif}.text-2xl{font-size:1.5rem;line-height:2rem}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-\[9px\]{font-size:9px}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.tabular-nums{--tw-numeric-spacing:tabular-nums;font-variant-numeric:var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction)}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.tracking-wide{letter-spacing:0.025em}.text-vcyan{--tw-text-opacity:1;color:rgb(34 211 238 / var(--tw-text-opacity, 1))}.text-vtext-1{--tw-text-opacity:1;color:rgb(241 240 255 / var(--tw-text-opacity, 1))}.text-vtext-2{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-vtext-3{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-vviolet-light{--tw-text-opacity:1;color:rgb(167 139 250 / var(--tw-text-opacity, 1))}.opacity-60{opacity:0.6}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-vbg-4\/60:hover{background-color:rgb(26 26 46 / 0.6)}.hover\:bg-vviolet-base\/10:hover{background-color:rgb(124 58 237 / 0.1)}.hover\:text-vtext-1:hover{--tw-text-opacity:1;color:rgb(241 240 255 / var(--tw-text-opacity, 1))}@media (min-width: 768px){.md\:table-cell{display:table-cell}.md\:h-14{height:3.5rem}.md\:w-14{width:3.5rem}.md\:max-w-xs{max-width:20rem}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-end{align-items:flex-end}.md\:items-center{align-items:center}.md\:justify-between{justify-content:space-between}.md\:gap-3{gap:0.75rem}.md\:gap-4{gap:1rem}.md\:gap-5{gap:1.25rem}.md\:gap-8{gap:2rem}.md\:p-5{padding:1.25rem}.md\:p-6{padding:1.5rem}.md\:px-6{padding-left:1.5rem;padding-right:1.5rem}.md\:py-5{padding-top:1.25rem;padding-bottom:1.25rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-3xl{font-size:1.875rem;line-height:2.25rem}.md\:text-\[10px\]{font-size:10px}.md\:text-\[11px\]{font-size:11px}.md\:text-xs{font-size:0.75rem;line-height:1rem}}@media (min-width: 1024px){.lg\:table-cell{display:table-cell}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}</style></head>
 <body data-id="0" class="bg-vbg-1 text-vtext-1 font-inter">
     <app-icon data-id="1" hidden="" data-icon="plane" data-palette="Dark" data-selection-initialized="true"></app-icon>
 
-    <!-- PRINT HEADER (visible only in print) -->
-    <div data-id="2" id="print-header-ph1" data-selection-initialized="true">VANTIS AIR CARGO — VAMSYS FLEET REGISTRY — CONFIDENTIAL</div>
-
-    <!-- ═══ LOGIN GATE ═══ -->
-    <div data-id="3" id="login-gate" style="display: none;" data-selection-initialized="true">
-        <div data-id="4" class="gate-scanline" data-selection-initialized="true"></div>
-        <div data-id="5" class="relative z-10 flex flex-col items-center w-full max-w-sm px-6" data-selection-initialized="true">
-            <svg data-id="6" width="72" height="72" viewBox="0 0 48 48" class="mb-6" data-selection-initialized="true">
-                <defs data-id="7">
-                    <linearGradient data-id="8" id="gate-vgrad" x1="0%" y1="0%" x2="100%" y2="100%" data-selection-initialized="true">
-                        <stop data-id="9" offset="0%" stop-color="#a78bfa" data-selection-initialized="true"></stop>
-                        <stop data-id="10" offset="100%" stop-color="#7c3aed" data-selection-initialized="true"></stop>
-                    </linearGradient>
-                </defs>
-                <circle data-id="11" cx="24" cy="24" r="23" fill="none" stroke="url(#gate-vgrad)" stroke-width="1.5"></circle>
-                <path data-id="12" d="M14 14 L24 36 L34 14" fill="none" stroke="url(#gate-vgrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path data-id="13" d="M6 20 Q24 8 42 20" fill="none" stroke="#a78bfa" stroke-width="1" opacity="0.5"></path>
-            </svg>
-            <h1 data-id="14" class="font-raj font-bold text-xl tracking-widest text-vtext-1 mb-1" data-selection-initialized="true">VAMSYS</h1>
-            <p data-id="15" class="font-mono text-[10px] text-vviolet-light tracking-widest mb-1" data-selection-initialized="true">FLEET INTELLIGENCE PLATFORM</p>
-            <p data-id="16" class="font-mono text-[9px] text-vtext-3 tracking-wider mb-8" data-selection-initialized="true">CLASSIFIED ACCESS // VANTIS INTERSTELLAR OPS</p>
-
-            <div data-id="17" id="login-form-lf1" class="w-full flex flex-col gap-4" data-selection-initialized="true">
-                <div data-id="18" data-selection-initialized="true">
-                    <label data-id="19" class="font-mono text-[10px] text-vcyan tracking-widest block mb-1.5" data-selection-initialized="true">OPERATOR ID</label>
-                    <input data-id="20" type="text" id="login-operator-id" class="login-input" placeholder="ENTER OPERATOR ID" autocomplete="off" data-selection-initialized="true">
-                </div>
-                <div data-id="21" data-selection-initialized="true">
-                    <label data-id="22" class="font-mono text-[10px] text-vcyan tracking-widest block mb-1.5" data-selection-initialized="true">ACCESS CODE</label>
-                    <input data-id="23" type="password" id="login-access-code" class="login-input" placeholder="ENTER ACCESS CODE" autocomplete="off" data-selection-initialized="true">
-                </div>
-                <div data-id="24" id="login-msg" class="font-mono text-[11px] text-center h-5 tracking-wider" data-selection-initialized="true"></div>
-                <button data-id="25" id="login-auth-btn" class="auth-btn w-full mt-1" data-selection-initialized="true">[ AUTHENTICATE ]</button>
-            </div>
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- LOGIN GATE OVERLAY                                  -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div data-id="2" id="loginGate" style="display: none;" data-selection-initialized="true">
+        <div data-id="3" class="login-branding" data-selection-initialized="true">
+            <div data-id="4" class="brand-label" data-selection-initialized="true">VANTIS AIR CARGO</div>
+            <div data-id="5" class="brand-title" data-selection-initialized="true">VAMSYS</div>
+            <div data-id="6" class="brand-subtitle" data-selection-initialized="true">FLEET INTELLIGENCE PLATFORM</div>
+            <div data-id="7" class="brand-divider" data-selection-initialized="true"></div>
         </div>
-        <p data-id="26" class="absolute bottom-6 left-0 right-0 text-center font-mono text-[9px] text-vtext-3 tracking-wider opacity-60 px-4" data-selection-initialized="true">
-            VAMSYS SECURE LOGIN · VANTIS AIR CARGO FLEET INTELLIGENCE · CLASSIFICATION: RESTRICTED
-        </p>
+        <div data-id="8" id="loginCard" data-selection-initialized="true">
+            <div data-id="9" class="login-live-dot" data-selection-initialized="true"></div>
+            <div data-id="10" class="login-header" data-selection-initialized="true">OPERATOR ACCESS</div>
+            <form data-id="11" id="loginForm" autocomplete="off" data-selection-initialized="true">
+                <div data-id="12" class="login-field-group" data-selection-initialized="true">
+                    <label data-id="13" class="login-field-label" for="operatorId" data-selection-initialized="true">OPERATOR ID</label>
+                    <input data-id="14" class="login-input" type="text" id="operatorId" placeholder="ENTER OPERATOR ID" autocomplete="off" data-selection-initialized="true">
+                </div>
+                <div data-id="15" class="login-field-group" data-selection-initialized="true">
+                    <label data-id="16" class="login-field-label" for="accessCode" data-selection-initialized="true">ACCESS CODE</label>
+                    <input data-id="17" class="login-input" type="password" id="accessCode" placeholder="ENTER ACCESS CODE" autocomplete="off" data-selection-initialized="true">
+                </div>
+                <button data-id="18" type="submit" class="login-submit-btn" data-selection-initialized="true">AUTHENTICATE</button>
+            </form>
+            <div data-id="19" id="loginError" data-selection-initialized="true">⚠ INVALID CREDENTIALS — ACCESS DENIED</div>
+            <div data-id="20" class="login-footer" data-selection-initialized="true">VANTIS INTERSTELLAR OPERATIONS</div>
+        </div>
+        <div data-id="21" class="login-bottom-text" data-selection-initialized="true">VANTIS AIRGRID INTELLIGENCE · CLASSIFICATION: INTERNAL</div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- MAIN APP (hidden until authenticated)               -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div data-id="22" id="mainApp" style="display: block;" data-selection-initialized="true">
+
+    <!-- PRINT HEADER (visible only in print) -->
+    <div data-id="23" id="print-header-ph1" data-selection-initialized="true">VANTIS AIR CARGO — VAMSYS FLEET REGISTRY — CONFIDENTIAL</div>
+
     <!-- HEADER -->
-    <header data-id="27" id="main-header-h8x2" class="relative bg-vbg-2 border-b border-vborder overflow-hidden" data-selection-initialized="true">
-        <div data-id="28" class="scanline-overlay" data-selection-initialized="true"></div>
-        <div data-id="29" class="relative z-10 max-w-[1600px] mx-auto px-4 md:px-6 py-4 md:py-5" data-selection-initialized="true">
-            <div data-id="30" class="flex flex-col md:flex-row md:items-center md:justify-between gap-3" data-selection-initialized="true">
-                <div data-id="31" class="flex items-center gap-3 md:gap-4" data-selection-initialized="true">
-                    <div data-id="32" class="flex-shrink-0" data-selection-initialized="true">
-                        <svg data-id="33" width="48" height="48" viewBox="0 0 48 48" class="md:w-14 md:h-14" data-selection-initialized="true">
-                            <defs data-id="34">
-                                <linearGradient data-id="35" id="vlogo-grad" x1="0%" y1="0%" x2="100%" y2="100%" data-selection-initialized="true">
-                                    <stop data-id="36" offset="0%" stop-color="#a78bfa" data-selection-initialized="true"></stop>
-                                    <stop data-id="37" offset="100%" stop-color="#7c3aed" data-selection-initialized="true"></stop>
+    <header data-id="24" id="main-header-h8x2" class="relative bg-vbg-2 border-b border-vborder overflow-hidden" data-selection-initialized="true">
+        <div data-id="25" class="scanline-overlay" data-selection-initialized="true"></div>
+        <div data-id="26" class="relative z-10 max-w-[1600px] mx-auto px-4 md:px-6 py-4 md:py-5" data-selection-initialized="true">
+            <div data-id="27" class="flex flex-col md:flex-row md:items-center md:justify-between gap-3" data-selection-initialized="true">
+                <div data-id="28" class="flex items-center gap-3 md:gap-4" data-selection-initialized="true">
+                    <div data-id="29" class="flex-shrink-0" data-selection-initialized="true">
+                        <svg data-id="30" width="48" height="48" viewBox="0 0 48 48" class="md:w-14 md:h-14" data-selection-initialized="true">
+                            <defs data-id="31">
+                                <linearGradient data-id="32" id="vlogo-grad" x1="0%" y1="0%" x2="100%" y2="100%" data-selection-initialized="true">
+                                    <stop data-id="33" offset="0%" stop-color="#a78bfa" data-selection-initialized="true"></stop>
+                                    <stop data-id="34" offset="100%" stop-color="#7c3aed" data-selection-initialized="true"></stop>
                                 </linearGradient>
                             </defs>
-                            <circle data-id="38" cx="24" cy="24" r="23" fill="none" stroke="url(#vlogo-grad)" stroke-width="1.5"></circle>
-                            <path data-id="39" d="M14 14 L24 36 L34 14" fill="none" stroke="url(#vlogo-grad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path data-id="40" d="M6 20 Q24 8 42 20" fill="none" stroke="#a78bfa" stroke-width="1" opacity="0.5"></path>
+                            <circle data-id="35" cx="24" cy="24" r="23" fill="none" stroke="url(#vlogo-grad)" stroke-width="1.5"></circle>
+                            <path data-id="36" d="M14 14 L24 36 L34 14" fill="none" stroke="url(#vlogo-grad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path data-id="37" d="M6 20 Q24 8 42 20" fill="none" stroke="#a78bfa" stroke-width="1" opacity="0.5"></path>
                         </svg>
                     </div>
-                    <div data-id="41" data-selection-initialized="true">
-                        <h1 data-id="42" class="font-raj font-bold text-xl md:text-2xl tracking-wider text-vtext-1 leading-tight" data-selection-initialized="true">VANTIS AIR CARGO</h1>
-                        <p data-id="43" class="font-mono text-[10px] md:text-xs text-vviolet-light tracking-widest" data-selection-initialized="true">VAMSYS — FLEET INTELLIGENCE PLATFORM</p>
-                        <p data-id="44" class="font-mono text-[9px] md:text-[10px] text-vtext-3 tracking-wider mt-0.5" data-selection-initialized="true">B777F INTERSTELLAR FLEET REGISTRY · 31 FRAMES</p>
+                    <div data-id="38" data-selection-initialized="true">
+                        <h1 data-id="39" class="font-raj font-bold text-xl md:text-2xl tracking-wider text-vtext-1 leading-tight" data-selection-initialized="true">VANTIS AIR CARGO</h1>
+                        <p data-id="40" class="font-mono text-[10px] md:text-xs text-vviolet-light tracking-widest" data-selection-initialized="true">VAMSYS — FLEET INTELLIGENCE PLATFORM</p>
+                        <p data-id="41" class="font-mono text-[9px] md:text-[10px] text-vtext-3 tracking-wider mt-0.5" data-selection-initialized="true">B777F INTERSTELLAR FLEET REGISTRY · 31 FRAMES</p>
                     </div>
                 </div>
-                <div data-id="45" class="flex flex-col items-start md:items-end gap-2" data-selection-initialized="true">
-                    <div data-id="46" class="flex items-center gap-3" data-selection-initialized="true">
-                        <span data-id="47" id="sync-indicator-si1" class="sync-pill sync-local" data-selection-initialized="true">
-                            <span data-id="48" style="width:6px;height:6px;border-radius:50%;background:#6b7280;display:inline-block" data-selection-initialized="true"></span>LOCAL
+                <div data-id="42" class="flex flex-col items-start md:items-end gap-2" data-selection-initialized="true">
+                    <div data-id="43" class="flex items-center gap-3" data-selection-initialized="true">
+                        <span data-id="44" id="sync-indicator-si1" class="sync-pill sync-local" data-selection-initialized="true">
+                            <span data-id="45" style="width:6px;height:6px;border-radius:50%;background:#6b7280;display:inline-block" data-selection-initialized="true"></span>LOCAL
                         </span>
-                        <div data-id="49" class="font-mono text-xs text-vcyan tracking-wider" id="live-clock-c9k1" data-selection-initialized="true">22:05:40 UTC · 18:05:40 EDT</div>
+                        <div data-id="46" class="font-mono text-xs text-vcyan tracking-wider" id="live-clock-c9k1" data-selection-initialized="true">23:34:35 UTC · 19:34:35 EDT</div>
                     </div>
-                    <div data-id="50" class="flex items-center gap-2" data-selection-initialized="true">
-                        <div data-id="51" id="status-pills-s7m3" class="flex flex-wrap gap-1.5" data-selection-initialized="true">
+                    <div data-id="47" class="flex items-center gap-2" data-selection-initialized="true">
+                        <div data-id="48" id="status-pills-s7m3" class="flex flex-wrap gap-1.5" data-selection-initialized="true">
         <span class="status-pill status-ACTIVE"><span style="width:6px;height:6px;border-radius:50%;background:#10b981;display:inline-block"></span>23</span>
         <span class="status-pill status-MAINTENANCE"><span style="width:6px;height:6px;border-radius:50%;background:#f59e0b;display:inline-block"></span>4</span>
         <span class="status-pill status-STANDBY"><span style="width:6px;height:6px;border-radius:50%;background:#6b7280;display:inline-block"></span>2</span>
         <span class="status-pill status-CHARTER"><span style="width:6px;height:6px;border-radius:50%;background:#3b82f6;display:inline-block"></span>1</span>
         <span class="status-pill status-DELIVERY"><span style="width:6px;height:6px;border-radius:50%;background:#8b5cf6;display:inline-block"></span>1</span>
       </div>
-                        <button data-id="52" id="api-config-btn-ac1" class="tab-btn" style="font-size:11px;padding:4px 10px;border-color:var(--cyan);color:var(--cyan);" data-selection-initialized="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="settings" aria-hidden="true" data-id="53" class="lucide lucide-settings w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>API
+                        <button data-id="49" id="api-config-btn-ac1" class="tab-btn" style="font-size:11px;padding:4px 10px;border-color:var(--cyan);color:var(--cyan);" data-selection-initialized="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="settings" aria-hidden="true" data-id="50" class="lucide lucide-settings w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>API
                         </button>
                     </div>
                 </div>
@@ -1059,34 +1178,34 @@
     </header>
 
     <!-- NAVIGATION TABS -->
-    <nav data-id="54" id="nav-tabs-n4r2" class="bg-vbg-2 border-b border-vborder sticky top-0 z-50" data-selection-initialized="true">
-        <div data-id="55" class="max-w-[1600px] mx-auto px-4 md:px-6 py-2 flex flex-wrap items-center gap-2" data-selection-initialized="true">
+    <nav data-id="51" id="nav-tabs-n4r2" class="bg-vbg-2 border-b border-vborder sticky top-0 z-50" data-selection-initialized="true">
+        <div data-id="52" class="max-w-[1600px] mx-auto px-4 md:px-6 py-2 flex flex-wrap items-center gap-2" data-selection-initialized="true">
             <!-- Mobile hamburger menu button -->
-            <button data-id="56" id="mobile-menu-btn-m2n3" class="mobile-menu-toggle tab-btn items-center gap-1" style="font-size:11px;padding:6px 10px;" data-selection-initialized="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="menu" aria-hidden="true" data-id="57" class="lucide lucide-menu w-4 h-4 inline align-middle" data-selection-initialized="true"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
+            <button data-id="53" id="mobile-menu-btn-m2n3" class="mobile-menu-toggle tab-btn items-center gap-1" style="font-size:11px;padding:6px 10px;" data-selection-initialized="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="menu" aria-hidden="true" data-id="54" class="lucide lucide-menu w-4 h-4 inline align-middle" data-selection-initialized="true"><path d="M4 5h16"></path><path d="M4 12h16"></path><path d="M4 19h16"></path></svg>
                 MENU
             </button>
             <!-- Desktop tabs -->
-            <div data-id="58" class="desktop-tabs flex flex-wrap items-center gap-2 flex-1" data-selection-initialized="true">
-                <button data-id="59" class="tab-btn active" data-view="registry" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="table-2" aria-hidden="true" data-id="60" class="lucide lucide-table-2 w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path></svg>
+            <div data-id="55" class="desktop-tabs flex flex-wrap items-center gap-2 flex-1" data-selection-initialized="true">
+                <button data-id="56" class="tab-btn active" data-view="registry" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="table-2" aria-hidden="true" data-id="57" class="lucide lucide-table-2 w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"></path></svg>
                     FLEET REGISTRY
                 </button>
-                <button data-id="61" class="tab-btn" data-view="cards" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layout-grid" aria-hidden="true" data-id="62" class="lucide lucide-layout-grid w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
+                <button data-id="58" class="tab-btn" data-view="cards" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="layout-grid" aria-hidden="true" data-id="59" class="lucide lucide-layout-grid w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>
                     VAMSYS CARDS
                 </button>
-                <button data-id="63" class="tab-btn" data-view="emblems" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield" aria-hidden="true" data-id="64" class="lucide lucide-shield w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
+                <button data-id="60" class="tab-btn" data-view="emblems" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield" aria-hidden="true" data-id="61" class="lucide lucide-shield w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path></svg>
                     EMBLEM CODEX (18)
                 </button>
-                <div data-id="65" class="flex-1" data-selection-initialized="true"></div>
-                <button data-id="66" id="export-html-btn-eh1" class="tab-btn" style="border-color: var(--green); color: var(--green);" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download-cloud" aria-hidden="true" data-id="67" class="lucide lucide-download-cloud w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M12 13v8l-4-4"></path><path d="m12 21 4-4"></path><path d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284"></path></svg>
+                <div data-id="62" class="flex-1" data-selection-initialized="true"></div>
+                <button data-id="63" id="export-html-btn-eh1" class="tab-btn" style="border-color: var(--green); color: var(--green);" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download-cloud" aria-hidden="true" data-id="64" class="lucide lucide-download-cloud w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M12 13v8l-4-4"></path><path d="m12 21 4-4"></path><path d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284"></path></svg>
                     EXPORT HTML
                 </button>
-                <button data-id="68" id="export-btn-e3k7" class="tab-btn" style="border-color: var(--cyan); color: var(--cyan);" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download" aria-hidden="true" data-id="69" class="lucide lucide-download w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
+                <button data-id="65" id="export-btn-e3k7" class="tab-btn" style="border-color: var(--cyan); color: var(--cyan);" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download" aria-hidden="true" data-id="66" class="lucide lucide-download w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg>
                     EXPORT
                 </button>
             </div>
@@ -1094,94 +1213,94 @@
     </nav>
 
     <!-- FILTER BAR -->
-    <section data-id="70" id="filter-bar-f2x9" class="bg-vbg-1 border-b border-vborder" data-selection-initialized="true">
-        <div data-id="71" class="max-w-[1600px] mx-auto px-4 md:px-6 py-3" data-selection-initialized="true">
-            <div data-id="72" class="flex flex-col md:flex-row gap-2 md:gap-3 items-stretch md:items-center" data-selection-initialized="true">
-                <div data-id="73" class="relative flex-1 min-w-0 md:max-w-xs" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" aria-hidden="true" data-id="74" class="lucide lucide-search w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-vtext-3 pointer-events-none" data-selection-initialized="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
-                    <input data-id="75" type="text" id="search-input-s1q4" class="search-input" placeholder="Search name, reg, class..." data-selection-initialized="true">
+    <section data-id="67" id="filter-bar-f2x9" class="bg-vbg-1 border-b border-vborder" data-selection-initialized="true">
+        <div data-id="68" class="max-w-[1600px] mx-auto px-4 md:px-6 py-3" data-selection-initialized="true">
+            <div data-id="69" class="flex flex-col md:flex-row gap-2 md:gap-3 items-stretch md:items-center" data-selection-initialized="true">
+                <div data-id="70" class="relative flex-1 min-w-0 md:max-w-xs" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" aria-hidden="true" data-id="71" class="lucide lucide-search w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-vtext-3 pointer-events-none" data-selection-initialized="true"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+                    <input data-id="72" type="text" id="search-input-s1q4" class="search-input" placeholder="Search name, reg, class..." data-selection-initialized="true">
                 </div>
-                <select data-id="76" id="filter-class-f5c2" class="filter-select" data-selection-initialized="true">
-                    <option data-id="77" value="" data-selection-initialized="true">ALL CLASSES</option>
-                    <option data-id="78" value="FOUNDING" data-selection-initialized="true">FOUNDING</option>
-                    <option data-id="79" value="EXPANSION I" data-selection-initialized="true">EXPANSION I</option>
-                    <option data-id="80" value="EXPANSION II" data-selection-initialized="true">EXPANSION II</option>
-                    <option data-id="81" value="MERIDIAN" data-selection-initialized="true">MERIDIAN</option>
-                    <option data-id="82" value="NOVA" data-selection-initialized="true">NOVA</option>
-                    <option data-id="83" value="APEX" data-selection-initialized="true">APEX</option>
-                    <option data-id="84" value="STRATOS" data-selection-initialized="true">STRATOS</option>
+                <select data-id="73" id="filter-class-f5c2" class="filter-select" data-selection-initialized="true">
+                    <option data-id="74" value="" data-selection-initialized="true">ALL CLASSES</option>
+                    <option data-id="75" value="FOUNDING" data-selection-initialized="true">FOUNDING</option>
+                    <option data-id="76" value="EXPANSION I" data-selection-initialized="true">EXPANSION I</option>
+                    <option data-id="77" value="EXPANSION II" data-selection-initialized="true">EXPANSION II</option>
+                    <option data-id="78" value="MERIDIAN" data-selection-initialized="true">MERIDIAN</option>
+                    <option data-id="79" value="NOVA" data-selection-initialized="true">NOVA</option>
+                    <option data-id="80" value="APEX" data-selection-initialized="true">APEX</option>
+                    <option data-id="81" value="STRATOS" data-selection-initialized="true">STRATOS</option>
                 </select>
-                <select data-id="85" id="filter-status-f6s3" class="filter-select" data-selection-initialized="true">
-                    <option data-id="86" value="" data-selection-initialized="true">ALL STATUS</option>
-                    <option data-id="87" value="ACTIVE" data-selection-initialized="true">ACTIVE</option>
-                    <option data-id="88" value="MAINTENANCE" data-selection-initialized="true">MAINTENANCE</option>
-                    <option data-id="89" value="STANDBY" data-selection-initialized="true">STANDBY</option>
-                    <option data-id="90" value="CHARTER" data-selection-initialized="true">CHARTER</option>
-                    <option data-id="91" value="IN DELIVERY" data-selection-initialized="true">IN DELIVERY</option>
+                <select data-id="82" id="filter-status-f6s3" class="filter-select" data-selection-initialized="true">
+                    <option data-id="83" value="" data-selection-initialized="true">ALL STATUS</option>
+                    <option data-id="84" value="ACTIVE" data-selection-initialized="true">ACTIVE</option>
+                    <option data-id="85" value="MAINTENANCE" data-selection-initialized="true">MAINTENANCE</option>
+                    <option data-id="86" value="STANDBY" data-selection-initialized="true">STANDBY</option>
+                    <option data-id="87" value="CHARTER" data-selection-initialized="true">CHARTER</option>
+                    <option data-id="88" value="IN DELIVERY" data-selection-initialized="true">IN DELIVERY</option>
                 </select>
-                <select data-id="92" id="filter-role-f7r4" class="filter-select" data-selection-initialized="true">
-                    <option data-id="93" value="" data-selection-initialized="true">ALL ROLES</option>
-                    <option data-id="94" value="TRUNK" data-selection-initialized="true">TRUNK ROUTE</option>
-                    <option data-id="95" value="E-COMMERCE" data-selection-initialized="true">E-COMMERCE</option>
-                    <option data-id="96" value="PHARMA" data-selection-initialized="true">PHARMA</option>
-                    <option data-id="97" value="COLD" data-selection-initialized="true">COLD CHAIN</option>
-                    <option data-id="98" value="HIGH-VALUE" data-selection-initialized="true">HIGH-VALUE</option>
-                    <option data-id="99" value="FULL FREIGHTER" data-selection-initialized="true">FULL FREIGHTER</option>
-                    <option data-id="100" value="PERISHABLE" data-selection-initialized="true">PERISHABLE</option>
-                    <option data-id="101" value="PACIFIC" data-selection-initialized="true">PACIFIC</option>
+                <select data-id="89" id="filter-role-f7r4" class="filter-select" data-selection-initialized="true">
+                    <option data-id="90" value="" data-selection-initialized="true">ALL ROLES</option>
+                    <option data-id="91" value="TRUNK" data-selection-initialized="true">TRUNK ROUTE</option>
+                    <option data-id="92" value="E-COMMERCE" data-selection-initialized="true">E-COMMERCE</option>
+                    <option data-id="93" value="PHARMA" data-selection-initialized="true">PHARMA</option>
+                    <option data-id="94" value="COLD" data-selection-initialized="true">COLD CHAIN</option>
+                    <option data-id="95" value="HIGH-VALUE" data-selection-initialized="true">HIGH-VALUE</option>
+                    <option data-id="96" value="FULL FREIGHTER" data-selection-initialized="true">FULL FREIGHTER</option>
+                    <option data-id="97" value="PERISHABLE" data-selection-initialized="true">PERISHABLE</option>
+                    <option data-id="98" value="PACIFIC" data-selection-initialized="true">PACIFIC</option>
                 </select>
-                <select data-id="102" id="filter-emblem-fe1" class="filter-select" data-selection-initialized="true">
-                    <option data-id="103" value="" data-selection-initialized="true">ALL EMBLEMS</option>
-                    <option data-id="104" value="STELLAR CROWN" data-selection-initialized="true">STELLAR CROWN</option>
-                    <option data-id="105" value="NEBULA ARC" data-selection-initialized="true">NEBULA ARC</option>
-                    <option data-id="106" value="COMET STRIKE" data-selection-initialized="true">COMET STRIKE</option>
-                    <option data-id="107" value="MERIDIAN CROSS" data-selection-initialized="true">MERIDIAN CROSS</option>
-                    <option data-id="108" value="NOVA BURST" data-selection-initialized="true">NOVA BURST</option>
-                    <option data-id="109" value="APEX VECTOR" data-selection-initialized="true">APEX VECTOR</option>
-                    <option data-id="110" value="PULSAR RING" data-selection-initialized="true">PULSAR RING</option>
-                    <option data-id="111" value="EVENT HORIZON" data-selection-initialized="true">EVENT HORIZON</option>
-                    <option data-id="112" value="SOLAR FLARE" data-selection-initialized="true">SOLAR FLARE</option>
-                    <option data-id="113" value="VOID LANCE" data-selection-initialized="true">VOID LANCE</option>
-                    <option data-id="114" value="QUASAR BEAM" data-selection-initialized="true">QUASAR BEAM</option>
-                    <option data-id="115" value="DARK MATTER" data-selection-initialized="true">DARK MATTER</option>
-                    <option data-id="116" value="BINARY STAR" data-selection-initialized="true">BINARY STAR</option>
-                    <option data-id="117" value="ION TRAIL" data-selection-initialized="true">ION TRAIL</option>
-                    <option data-id="118" value="GRAVITY WELL" data-selection-initialized="true">GRAVITY WELL</option>
-                    <option data-id="119" value="AURORA VEIL" data-selection-initialized="true">AURORA VEIL</option>
-                    <option data-id="120" value="NEUTRON SHIELD" data-selection-initialized="true">NEUTRON SHIELD</option>
-                    <option data-id="121" value="WARP GATE" data-selection-initialized="true">WARP GATE</option>
+                <select data-id="99" id="filter-emblem-fe1" class="filter-select" data-selection-initialized="true">
+                    <option data-id="100" value="" data-selection-initialized="true">ALL EMBLEMS</option>
+                    <option data-id="101" value="STELLAR CROWN" data-selection-initialized="true">STELLAR CROWN</option>
+                    <option data-id="102" value="NEBULA ARC" data-selection-initialized="true">NEBULA ARC</option>
+                    <option data-id="103" value="COMET STRIKE" data-selection-initialized="true">COMET STRIKE</option>
+                    <option data-id="104" value="MERIDIAN CROSS" data-selection-initialized="true">MERIDIAN CROSS</option>
+                    <option data-id="105" value="NOVA BURST" data-selection-initialized="true">NOVA BURST</option>
+                    <option data-id="106" value="APEX VECTOR" data-selection-initialized="true">APEX VECTOR</option>
+                    <option data-id="107" value="PULSAR RING" data-selection-initialized="true">PULSAR RING</option>
+                    <option data-id="108" value="EVENT HORIZON" data-selection-initialized="true">EVENT HORIZON</option>
+                    <option data-id="109" value="SOLAR FLARE" data-selection-initialized="true">SOLAR FLARE</option>
+                    <option data-id="110" value="VOID LANCE" data-selection-initialized="true">VOID LANCE</option>
+                    <option data-id="111" value="QUASAR BEAM" data-selection-initialized="true">QUASAR BEAM</option>
+                    <option data-id="112" value="DARK MATTER" data-selection-initialized="true">DARK MATTER</option>
+                    <option data-id="113" value="BINARY STAR" data-selection-initialized="true">BINARY STAR</option>
+                    <option data-id="114" value="ION TRAIL" data-selection-initialized="true">ION TRAIL</option>
+                    <option data-id="115" value="GRAVITY WELL" data-selection-initialized="true">GRAVITY WELL</option>
+                    <option data-id="116" value="AURORA VEIL" data-selection-initialized="true">AURORA VEIL</option>
+                    <option data-id="117" value="NEUTRON SHIELD" data-selection-initialized="true">NEUTRON SHIELD</option>
+                    <option data-id="118" value="WARP GATE" data-selection-initialized="true">WARP GATE</option>
                 </select>
-                <button data-id="122" id="print-btn-pb1" class="tab-btn" style="border-color:var(--violet);color:var(--violet-light);font-size:11px;padding:6px 12px;" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="printer" aria-hidden="true" data-id="123" class="lucide lucide-printer w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg>
+                <button data-id="119" id="print-btn-pb1" class="tab-btn" style="border-color:var(--violet);color:var(--violet-light);font-size:11px;padding:6px 12px;" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="printer" aria-hidden="true" data-id="120" class="lucide lucide-printer w-3 h-3 inline mr-1 align-middle" data-selection-initialized="true"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg>
                     PRINT CARDS
                 </button>
-                <div data-id="124" class="font-mono text-[10px] text-vtext-3 tracking-wider self-center" id="result-count-r8c5" data-selection-initialized="true">31 FRAMES REGISTERED</div>
+                <div data-id="121" class="font-mono text-[10px] text-vtext-3 tracking-wider self-center" id="result-count-r8c5" data-selection-initialized="true">31 FRAMES REGISTERED</div>
             </div>
         </div>
     </section>
 
-    <main data-id="125" class="max-w-[1600px] mx-auto px-4 md:px-6 py-6" data-selection-initialized="true">
+    <main data-id="122" class="max-w-[1600px] mx-auto px-4 md:px-6 py-6" data-selection-initialized="true">
 
         <!-- VIEW 1: FLEET REGISTRY TABLE -->
-        <div data-id="126" id="view-registry-v1a1" class="view-panel active" data-selection-initialized="true">
-            <div data-id="127" class="overflow-x-auto rounded-xl border border-vborder" data-selection-initialized="true">
-                <table data-id="128" class="w-full text-left" id="fleet-table-t2b3" data-selection-initialized="true">
-                    <thead data-id="129" class="bg-vbg-4 sticky top-0 z-10" data-selection-initialized="true">
-                        <tr data-id="130" class="font-mono text-[10px] md:text-[11px] text-vcyan tracking-wider uppercase" data-selection-initialized="true">
-                            <th data-id="131" class="table-header-cell px-3 py-3" data-sort="id" data-selection-initialized="true">FRAME<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="132" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
-                            <th data-id="133" class="table-header-cell px-3 py-3" data-sort="name" data-selection-initialized="true">NAME<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="134" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
-                            <th data-id="135" class="table-header-cell px-3 py-3" data-sort="reg" data-selection-initialized="true">REG<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="136" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
-                            <th data-id="137" class="table-header-cell px-3 py-3 hidden md:table-cell" data-selection-initialized="true">TYPE</th>
-                            <th data-id="138" class="table-header-cell px-3 py-3" data-sort="class" data-selection-initialized="true">CLASS<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="139" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
-                            <th data-id="140" class="table-header-cell px-3 py-3 hidden lg:table-cell" data-sort="mtow" data-selection-initialized="true">MTOW<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="141" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
-                            <th data-id="142" class="table-header-cell px-3 py-3 hidden lg:table-cell" data-sort="range" data-selection-initialized="true">RANGE<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="143" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
-                            <th data-id="144" class="table-header-cell px-3 py-3 hidden md:table-cell" data-selection-initialized="true">ROLE</th>
-                            <th data-id="145" class="table-header-cell px-3 py-3" data-sort="status" data-selection-initialized="true">STATUS<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="146" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
-                            <th data-id="147" class="table-header-cell px-3 py-3 hidden lg:table-cell" data-selection-initialized="true">EMBLEM</th>
-                            <th data-id="148" class="table-header-cell px-3 py-3 hidden md:table-cell" data-sort="year" data-selection-initialized="true">YEAR<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="149" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+        <div data-id="123" id="view-registry-v1a1" class="view-panel active" data-selection-initialized="true">
+            <div data-id="124" class="overflow-x-auto rounded-xl border border-vborder" data-selection-initialized="true">
+                <table data-id="125" class="w-full text-left" id="fleet-table-t2b3" data-selection-initialized="true">
+                    <thead data-id="126" class="bg-vbg-4 sticky top-0 z-10" data-selection-initialized="true">
+                        <tr data-id="127" class="font-mono text-[10px] md:text-[11px] text-vcyan tracking-wider uppercase" data-selection-initialized="true">
+                            <th data-id="128" class="table-header-cell px-3 py-3" data-sort="id" data-selection-initialized="true">FRAME<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="129" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+                            <th data-id="130" class="table-header-cell px-3 py-3" data-sort="name" data-selection-initialized="true">NAME<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="131" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+                            <th data-id="132" class="table-header-cell px-3 py-3" data-sort="reg" data-selection-initialized="true">REG<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="133" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+                            <th data-id="134" class="table-header-cell px-3 py-3 hidden md:table-cell" data-selection-initialized="true">TYPE</th>
+                            <th data-id="135" class="table-header-cell px-3 py-3" data-sort="class" data-selection-initialized="true">CLASS<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="136" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+                            <th data-id="137" class="table-header-cell px-3 py-3 hidden lg:table-cell" data-sort="mtow" data-selection-initialized="true">MTOW<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="138" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+                            <th data-id="139" class="table-header-cell px-3 py-3 hidden lg:table-cell" data-sort="range" data-selection-initialized="true">RANGE<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="140" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+                            <th data-id="141" class="table-header-cell px-3 py-3 hidden md:table-cell" data-selection-initialized="true">ROLE</th>
+                            <th data-id="142" class="table-header-cell px-3 py-3" data-sort="status" data-selection-initialized="true">STATUS<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="143" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
+                            <th data-id="144" class="table-header-cell px-3 py-3 hidden lg:table-cell" data-selection-initialized="true">EMBLEM</th>
+                            <th data-id="145" class="table-header-cell px-3 py-3 hidden md:table-cell" data-sort="year" data-selection-initialized="true">YEAR<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevrons-up-down" aria-hidden="true" data-id="146" class="lucide lucide-chevrons-up-down w-3 h-3 inline ml-1 align-middle" data-selection-initialized="true"><path d="m7 15 5 5 5-5"></path><path d="m7 9 5-5 5 5"></path></svg></th>
                         </tr>
                     </thead>
-                    <tbody data-id="150" id="table-body-b4d6" class="font-mono text-xs" data-selection-initialized="true"><tr class="border-b border-vborder/50 hover:bg-vbg-4/60 cursor-pointer transition-colors bg-vbg-2/30" data-frame="VAN001">
+                    <tbody data-id="147" id="table-body-b4d6" class="font-mono text-xs" data-selection-initialized="true"><tr class="border-b border-vborder/50 hover:bg-vbg-4/60 cursor-pointer transition-colors bg-vbg-2/30" data-frame="VAN001">
           <td class="px-3 py-2.5 font-bold text-vviolet-light">VAN001</td>
           <td class="px-3 py-2.5 font-raj font-semibold text-sm tracking-wide">ARCTURUS</td>
           <td class="px-3 py-2.5 text-vtext-2">VX-ANT001</td>
@@ -1559,8 +1678,8 @@
         </div>
 
         <!-- VIEW 2: VAMSYS FLEET CARDS -->
-        <div data-id="151" id="view-cards-v2b2" class="view-panel" data-selection-initialized="true">
-            <div data-id="152" id="cards-grid-g5e7" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5" data-selection-initialized="true"><div class="fleet-card p-4 md:p-5" id="card-VAN001">
+        <div data-id="148" id="view-cards-v2b2" class="view-panel" data-selection-initialized="true">
+            <div data-id="149" id="cards-grid-g5e7" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5" data-selection-initialized="true"><div class="fleet-card p-4 md:p-5" id="card-VAN001">
           <div class="flex items-start justify-between mb-3">
             <div class="flex items-center gap-2">
               <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:#f59e0b22;border:1px solid #f59e0b44">
@@ -3238,21 +3357,21 @@
         </div>
 
         <!-- VIEW 3: EMBLEM CODEX -->
-        <div data-id="153" id="view-emblems-v3c3" class="view-panel" data-selection-initialized="true">
-            <div data-id="154" class="text-center mb-8" data-selection-initialized="true">
-                <h2 data-id="155" class="font-raj font-bold text-2xl md:text-3xl tracking-wider text-vviolet-light" data-selection-initialized="true">EMBLEM CODEX</h2>
-                <p data-id="156" class="font-mono text-xs text-vtext-2 mt-1 tracking-wider" data-selection-initialized="true">18 EMBLEM VARIANTS · 3 SERIES · 6 FLEET CLASSES PER SERIES</p>
+        <div data-id="150" id="view-emblems-v3c3" class="view-panel" data-selection-initialized="true">
+            <div data-id="151" class="text-center mb-8" data-selection-initialized="true">
+                <h2 data-id="152" class="font-raj font-bold text-2xl md:text-3xl tracking-wider text-vviolet-light" data-selection-initialized="true">EMBLEM CODEX</h2>
+                <p data-id="153" class="font-mono text-xs text-vtext-2 mt-1 tracking-wider" data-selection-initialized="true">18 EMBLEM VARIANTS · 3 SERIES · 6 FLEET CLASSES PER SERIES</p>
             </div>
 
             <!-- CURRENT FLEET EMBLEMS SECTION HEADER -->
-            <div data-id="157" class="text-center mb-6" data-selection-initialized="true">
-                <hr data-id="158" class="section-divider-line mb-3" data-selection-initialized="true">
-                <p data-id="159" class="font-mono text-[11px] text-vcyan tracking-widest" data-selection-initialized="true">CURRENT FLEET EMBLEMS — VAN001–VAN031</p>
-                <p data-id="160" class="font-mono text-[9px] text-vtext-3 tracking-wider mt-1" data-selection-initialized="true">ACTIVE · ASSIGNED · 7 DESIGNATIONS</p>
-                <hr data-id="161" class="section-divider-line mt-3" data-selection-initialized="true">
+            <div data-id="154" class="text-center mb-6" data-selection-initialized="true">
+                <hr data-id="155" class="section-divider-line mb-3" data-selection-initialized="true">
+                <p data-id="156" class="font-mono text-[11px] text-vcyan tracking-widest" data-selection-initialized="true">CURRENT FLEET EMBLEMS — VAN001–VAN031</p>
+                <p data-id="157" class="font-mono text-[9px] text-vtext-3 tracking-wider mt-1" data-selection-initialized="true">ACTIVE · ASSIGNED · 7 DESIGNATIONS</p>
+                <hr data-id="158" class="section-divider-line mt-3" data-selection-initialized="true">
             </div>
 
-            <div data-id="162" id="emblems-grid-g6f8" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-selection-initialized="true"><div class="emblem-card fleet-card p-5 md:p-6 text-center">
+            <div data-id="159" id="emblems-grid-g6f8" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-selection-initialized="true"><div class="emblem-card fleet-card p-5 md:p-6 text-center">
           
           <div class="flex justify-center mb-4"><svg viewBox="0 0 200 200" class="emblem-svg" width="200" height="200">
           <defs><radialGradient id="eg1" cx="50%" cy="50%"><stop offset="0%" stop-color="#1a1a2e"></stop><stop offset="100%" stop-color="#0a0a14"></stop></radialGradient></defs>
@@ -3403,14 +3522,14 @@
         </div></div>
 
             <!-- EXPANSION RESERVE EMBLEMS SECTION HEADER -->
-            <div data-id="163" class="text-center my-10" data-selection-initialized="true">
-                <hr data-id="164" class="section-divider-line mb-3" data-selection-initialized="true">
-                <p data-id="165" class="font-mono text-[11px] text-vcyan tracking-widest" data-selection-initialized="true">EXPANSION RESERVE EMBLEMS — FUTURE FLEET CLASSES</p>
-                <p data-id="166" class="font-mono text-[9px] text-vtext-3 tracking-wider mt-1" data-selection-initialized="true">RESERVED · NOT YET ASSIGNED · VAN032–VAN060</p>
-                <hr data-id="167" class="section-divider-line mt-3" data-selection-initialized="true">
+            <div data-id="160" class="text-center my-10" data-selection-initialized="true">
+                <hr data-id="161" class="section-divider-line mb-3" data-selection-initialized="true">
+                <p data-id="162" class="font-mono text-[11px] text-vcyan tracking-widest" data-selection-initialized="true">EXPANSION RESERVE EMBLEMS — FUTURE FLEET CLASSES</p>
+                <p data-id="163" class="font-mono text-[9px] text-vtext-3 tracking-wider mt-1" data-selection-initialized="true">RESERVED · NOT YET ASSIGNED · VAN032–VAN060</p>
+                <hr data-id="164" class="section-divider-line mt-3" data-selection-initialized="true">
             </div>
 
-            <div data-id="168" id="reserve-emblems-grid-re1" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-selection-initialized="true"><div class="emblem-card fleet-card p-5 md:p-6 text-center">
+            <div data-id="165" id="reserve-emblems-grid-re1" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-selection-initialized="true"><div class="emblem-card fleet-card p-5 md:p-6 text-center">
           <div class="mb-3"><div class="flex justify-end"><span class="reserved-pill">RESERVED</span></div></div>
           <div class="flex justify-center mb-4"><svg viewBox="0 0 200 200" class="emblem-svg" width="200" height="200">
           <defs><radialGradient id="eg8" cx="50%" cy="50%"><stop offset="0%" stop-color="#000008"></stop><stop offset="100%" stop-color="#0a0a14"></stop></radialGradient>
@@ -3589,14 +3708,14 @@
         </div></div>
 
             <!-- SERIES III DEEP EXPANSION SECTION HEADER -->
-            <div data-id="169" class="text-center my-10" data-selection-initialized="true">
-                <hr data-id="170" class="section-divider-line-fuchsia mb-3" data-selection-initialized="true">
-                <p data-id="171" class="font-mono text-[11px] tracking-widest" style="color:#e879f9;" data-selection-initialized="true">SERIES III — DEEP EXPANSION · VAN061–VAN090 · VANTIS ORBITAL CLASSIFICATION</p>
-                <p data-id="172" class="font-mono text-[9px] text-vtext-3 tracking-wider mt-1" data-selection-initialized="true">RESERVED · VAN061–VAN090 · CLASSIFICATION: VANTIS ORBITAL</p>
-                <hr data-id="173" class="section-divider-line-fuchsia mt-3" data-selection-initialized="true">
+            <div data-id="166" class="text-center my-10" data-selection-initialized="true">
+                <hr data-id="167" class="section-divider-line-fuchsia mb-3" data-selection-initialized="true">
+                <p data-id="168" class="font-mono text-[11px] tracking-widest" style="color:#e879f9;" data-selection-initialized="true">SERIES III — DEEP EXPANSION · VAN061–VAN090 · VANTIS ORBITAL CLASSIFICATION</p>
+                <p data-id="169" class="font-mono text-[9px] text-vtext-3 tracking-wider mt-1" data-selection-initialized="true">RESERVED · VAN061–VAN090 · CLASSIFICATION: VANTIS ORBITAL</p>
+                <hr data-id="170" class="section-divider-line-fuchsia mt-3" data-selection-initialized="true">
             </div>
 
-            <div data-id="174" id="series3-emblems-grid-s3e1" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-selection-initialized="true"><div class="emblem-card fleet-card p-5 md:p-6 text-center">
+            <div data-id="171" id="series3-emblems-grid-s3e1" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-selection-initialized="true"><div class="emblem-card fleet-card p-5 md:p-6 text-center">
           <div class="mb-3"><div class="flex justify-end"><span class="reserved-pill">RESERVED</span></div></div>
           <div class="flex justify-center mb-4"><svg viewBox="0 0 200 200" class="emblem-svg" width="200" height="200">
           <defs>
@@ -3670,7 +3789,6 @@
           <div class="mb-3"><div class="flex justify-end"><span class="reserved-pill">RESERVED</span></div></div>
           <div class="flex justify-center mb-4"><svg viewBox="0 0 200 200" class="emblem-svg" width="200" height="200">
           <rect width="200" height="200" rx="16" fill="#050508"></rect>
-          <!-- Horizontal warped grid lines -->
           <path d="M10,40 Q100,42 190,40" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"></path>
           <path d="M10,55 Q100,60 190,55" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"></path>
           <path d="M10,70 Q100,82 190,70" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.6"></path>
@@ -3681,7 +3799,6 @@
           <path d="M10,145 Q100,138 190,145" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"></path>
           <path d="M10,160 Q100,158 190,160" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"></path>
           <path d="M10,175 Q100,174 190,175" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.45"></path>
-          <!-- Vertical warped grid lines -->
           <path d="M40,10 Q42,100 40,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"></path>
           <path d="M55,10 Q60,100 55,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"></path>
           <path d="M70,10 Q82,100 70,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.6"></path>
@@ -3692,17 +3809,14 @@
           <path d="M145,10 Q138,100 145,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"></path>
           <path d="M160,10 Q158,100 160,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"></path>
           <path d="M175,10 Q174,100 175,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.45"></path>
-          <!-- Tidal force arcs -->
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4"></ellipse>
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4" transform="rotate(45,100,100)"></ellipse>
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4" transform="rotate(90,100,100)"></ellipse>
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4" transform="rotate(135,100,100)"></ellipse>
-          <!-- Infalling debris -->
           <polygon points="60,62 64,58 66,64 62,66" fill="#334155"></polygon><polygon points="140,55 145,52 146,58" fill="#334155"></polygon>
           <polygon points="52,130 58,126 56,134" fill="#334155"></polygon><polygon points="148,135 152,130 154,138 150,140" fill="#334155"></polygon>
           <polygon points="70,48 74,44 76,50" fill="#334155"></polygon><polygon points="130,50 136,46 134,54" fill="#334155"></polygon>
           <polygon points="55,148 60,144 58,152" fill="#334155"></polygon><polygon points="145,150 150,146 148,154" fill="#334155"></polygon>
-          <!-- Singularity -->
           <circle cx="100" cy="100" r="16" fill="#000000"></circle>
           <circle cx="100" cy="100" r="16" fill="none" stroke="#94a3b8" stroke-width="2" class="grav-pulse-ring" style="filter: drop-shadow(0 0 10px #94a3b8) drop-shadow(0 0 20px #475569)"></circle>
           <circle cx="100" cy="100" r="5" fill="#f1f0ff" style="filter: drop-shadow(0 0 8px #ffffff)"></circle>
@@ -3726,7 +3840,6 @@
             <linearGradient id="eg16r3" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#34d399" stop-opacity="0.4"></stop><stop offset="100%" stop-color="#34d399" stop-opacity="0"></stop></linearGradient>
           </defs>
           <rect width="200" height="200" rx="16" fill="#060912"></rect>
-          <!-- Star field -->
           <circle cx="20" cy="15" r="1" fill="#f1f0ff" opacity="0.4"></circle><circle cx="45" cy="8" r="1.5" fill="#f1f0ff" opacity="0.4"></circle>
           <circle cx="80" cy="12" r="1" fill="#f1f0ff" opacity="0.4"></circle><circle cx="120" cy="6" r="1.5" fill="#f1f0ff" opacity="0.4"></circle>
           <circle cx="155" cy="18" r="1" fill="#f1f0ff" opacity="0.4"></circle><circle cx="175" cy="10" r="1" fill="#f1f0ff" opacity="0.4"></circle>
@@ -3735,21 +3848,16 @@
           <circle cx="170" cy="35" r="1" fill="#f1f0ff" opacity="0.4"></circle><circle cx="15" cy="50" r="1" fill="#f1f0ff" opacity="0.4"></circle>
           <circle cx="185" cy="45" r="1.5" fill="#f1f0ff" opacity="0.4"></circle><circle cx="110" cy="15" r="1" fill="#f1f0ff" opacity="0.4"></circle>
           <circle cx="50" cy="35" r="1" fill="#f1f0ff" opacity="0.4"></circle>
-          <!-- Background wash -->
           <path d="M20,0 C40,50 50,120 30,200 L70,200 C55,120 60,50 50,0 Z" fill="#4c1d95" opacity="0.2"></path>
-          <!-- Aurora ribbons -->
           <path d="M35,0 C55,60 45,130 25,200 L55,200 C50,130 60,60 50,0 Z" fill="url(#eg16r1)" class="aurora-ribbon-1"></path>
           <path d="M80,0 C100,70 90,140 70,200 L95,200 C90,140 105,70 95,0 Z" fill="url(#eg16r2)" class="aurora-ribbon-2"></path>
           <path d="M135,0 C155,65 145,135 125,200 L145,200 C140,135 160,65 150,0 Z" fill="url(#eg16r3)" class="aurora-ribbon-3"></path>
-          <!-- Aurora horizontal bands -->
           <ellipse cx="100" cy="40" rx="100" ry="4" fill="#a78bfa" opacity="0.25"></ellipse>
           <ellipse cx="100" cy="70" rx="100" ry="4" fill="#22d3ee" opacity="0.25"></ellipse>
           <ellipse cx="100" cy="100" rx="100" ry="4" fill="#a78bfa" opacity="0.25"></ellipse>
           <ellipse cx="100" cy="130" rx="100" ry="4" fill="#22d3ee" opacity="0.25"></ellipse>
           <ellipse cx="100" cy="160" rx="100" ry="4" fill="#a78bfa" opacity="0.25"></ellipse>
-          <!-- Ground reflection -->
           <line x1="10" y1="185" x2="190" y2="185" stroke="#818cf8" stroke-width="0.5" opacity="0.2"></line>
-          <!-- V logo -->
           <path d="M84,92 L100,118 L116,92" fill="none" stroke="#ffffff" stroke-width="3" style="filter: drop-shadow(0 0 6px #ffffff)"></path>
           <text x="100" y="180" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#818cf8" letter-spacing="3">AURORA VEIL</text>
         </svg></div>
@@ -3765,29 +3873,22 @@
           <div class="mb-3"><div class="flex justify-end"><span class="reserved-pill">RESERVED</span></div></div>
           <div class="flex justify-center mb-4"><svg viewBox="0 0 200 200" class="emblem-svg" width="200" height="200" style="filter: drop-shadow(0 0 16px rgba(251,146,60,0.3))">
           <rect width="200" height="200" rx="16" fill="#0a0805"></rect>
-          <!-- Structural reinforcement lines -->
           <line x1="100" y1="20" x2="100" y2="180" stroke="#1e1a0e" stroke-width="0.5"></line>
           <line x1="30.72" y1="60" x2="169.28" y2="140" stroke="#1e1a0e" stroke-width="0.5"></line>
           <line x1="30.72" y1="140" x2="169.28" y2="60" stroke="#1e1a0e" stroke-width="0.5"></line>
-          <!-- Outer hexagon -->
           <polygon points="100,20 169.28,60 169.28,140 100,180 30.72,140 30.72,60" fill="none" stroke="#fb923c" stroke-width="3" class="shield-outer-hex"></polygon>
-          <!-- Fill segments -->
           <polygon points="100,20 169.28,60 100,100" fill="#1a0e05" opacity="0.3"></polygon>
           <polygon points="100,20 30.72,60 100,100" fill="#fb923c" opacity="0.08"></polygon>
           <polygon points="169.28,60 169.28,140 100,100" fill="#1a0e05" opacity="0.3"></polygon>
           <polygon points="30.72,60 30.72,140 100,100" fill="#fb923c" opacity="0.08"></polygon>
           <polygon points="169.28,140 100,180 100,100" fill="#1a0e05" opacity="0.3"></polygon>
           <polygon points="30.72,140 100,180 100,100" fill="#fb923c" opacity="0.08"></polygon>
-          <!-- Middle hexagon -->
           <polygon points="100,38 147.66,70 147.66,130 100,162 52.34,130 52.34,70" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.7"></polygon>
-          <!-- Inner hexagon -->
           <polygon points="100,56 126.04,78 126.04,122 100,144 73.96,122 73.96,78" fill="none" stroke="#fb923c" stroke-width="1" opacity="0.5"></polygon>
-          <!-- Battle damage arcs -->
           <path d="M160,55 Q172,62 168,75" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"></path>
           <path d="M40,130 Q28,138 32,150" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"></path>
           <path d="M105,22 Q115,18 125,24" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"></path>
           <path d="M160,145 Q170,140 166,130" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"></path>
-          <!-- Central core -->
           <circle cx="100" cy="100" r="20" fill="#0a0a14" stroke="#fb923c" stroke-width="2" style="filter: drop-shadow(0 0 10px #fb923c)"></circle>
           <path d="M90,92 L100,112 L110,92" fill="none" stroke="#fb923c" stroke-width="2.5"></path>
           <text x="100" y="185" text-anchor="middle" font-family="Space Mono,monospace" font-size="8" fill="#fb923c" letter-spacing="2">NEUTRON SHIELD</text>
@@ -3809,25 +3910,19 @@
             <filter id="glow18"><feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur><feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
           </defs>
           <rect width="200" height="200" rx="16" fill="url(#eg18bg)"></rect>
-          <!-- Dimensional rift lines (diagonals) -->
           <line x1="0" y1="0" x2="200" y2="200" stroke="#e879f9" stroke-width="0.5" opacity="0.3"></line>
           <line x1="200" y1="0" x2="0" y2="200" stroke="#e879f9" stroke-width="0.5" opacity="0.3"></line>
           <line x1="100" y1="0" x2="100" y2="200" stroke="#e879f9" stroke-width="0.5" opacity="0.2"></line>
           <line x1="0" y1="100" x2="200" y2="100" stroke="#e879f9" stroke-width="0.5" opacity="0.2"></line>
-          <!-- Entry corridor approach lines -->
           <line x1="0" y1="90" x2="30" y2="96" stroke="#a78bfa" stroke-width="1" stroke-dasharray="8 4" opacity="0.5"></line>
           <line x1="0" y1="110" x2="30" y2="104" stroke="#a78bfa" stroke-width="1" stroke-dasharray="8 4" opacity="0.5"></line>
-          <!-- Inner vortex rings -->
           <circle cx="100" cy="100" r="60" fill="none" stroke="#c026d3" stroke-width="1.5" class="warp-ring-60"></circle>
           <circle cx="100" cy="100" r="45" fill="none" stroke="#a21caf" stroke-width="1.2" class="warp-ring-45"></circle>
           <circle cx="100" cy="100" r="30" fill="none" stroke="#86198f" stroke-width="1" class="warp-ring-30"></circle>
           <circle cx="100" cy="100" r="15" fill="none" stroke="#701a75" stroke-width="0.8" class="warp-ring-15"></circle>
           <circle cx="100" cy="100" r="10" fill="url(#eg18core)"></circle>
-          <!-- Outer gate ring -->
           <circle cx="100" cy="100" r="75" fill="none" stroke="#e879f9" stroke-width="4" class="gate-pulse-ring"></circle>
-          <!-- Gate energy arcs (8 docking ports) -->
           <path d="M174.5891421526205,92.16036525492599 A75,75 0 0,1 174.5891421526205,107.83963474507401" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path><path d="M158.28594710927283,147.1990293287378 A75,75 0 0,1 147.19902932873782,158.2859471092728" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path><path d="M107.83963474507401,174.5891421526205 A75,75 0 0,1 92.160365254926,174.58914215262052" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path><path d="M52.800970671262206,158.28594710927283 A75,75 0 0,1 41.714052890727196,147.19902932873782" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path><path d="M25.410857847379503,107.83963474507404 A75,75 0 0,1 25.41085784737949,92.16036525492602" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path><path d="M41.71405289072719,52.80097067126218 A75,75 0 0,1 52.80097067126221,41.71405289072717" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path><path d="M92.16036525492599,25.41085784737949 A75,75 0 0,1 107.83963474507398,25.41085784737949" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path><path d="M147.19902932873782,41.71405289072719 A75,75 0 0,1 158.2859471092728,52.800970671262164" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"></path>
-          <!-- V logo at center -->
           <path d="M86,88 L100,116 L114,88" fill="none" stroke="#ffffff" stroke-width="3" filter="url(#glow18)"></path>
           <text x="100" y="185" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#e879f9" letter-spacing="3">WARP GATE</text>
         </svg></div>
@@ -3842,19 +3937,19 @@
         </div></div>
 
             <!-- LEGEND -->
-            <div data-id="175" class="mt-10 border-t border-vborder pt-6 text-center" data-selection-initialized="true">
-                <div data-id="176" class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8" data-selection-initialized="true">
+            <div data-id="172" class="mt-10 border-t border-vborder pt-6 text-center" data-selection-initialized="true">
+                <div data-id="173" class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8" data-selection-initialized="true">
+                    <div data-id="174" class="flex items-center gap-2" data-selection-initialized="true">
+                        <span data-id="175" style="width:10px;height:10px;border-radius:50%;background:#10b981;display:inline-block" data-selection-initialized="true"></span>
+                        <span data-id="176" class="font-mono text-[11px] text-vtext-2 tracking-wider" data-selection-initialized="true">ACTIVE EMBLEMS (6) — VAN001–VAN030</span>
+                    </div>
                     <div data-id="177" class="flex items-center gap-2" data-selection-initialized="true">
-                        <span data-id="178" style="width:10px;height:10px;border-radius:50%;background:#10b981;display:inline-block" data-selection-initialized="true"></span>
-                        <span data-id="179" class="font-mono text-[11px] text-vtext-2 tracking-wider" data-selection-initialized="true">ACTIVE EMBLEMS (6) — VAN001–VAN030</span>
+                        <span data-id="178" style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block" data-selection-initialized="true"></span>
+                        <span data-id="179" class="font-mono text-[11px] text-vtext-2 tracking-wider" data-selection-initialized="true">RESERVE EMBLEMS (6) — VAN031–VAN060 · Series II</span>
                     </div>
                     <div data-id="180" class="flex items-center gap-2" data-selection-initialized="true">
-                        <span data-id="181" style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block" data-selection-initialized="true"></span>
-                        <span data-id="182" class="font-mono text-[11px] text-vtext-2 tracking-wider" data-selection-initialized="true">RESERVE EMBLEMS (6) — VAN031–VAN060 · Series II</span>
-                    </div>
-                    <div data-id="183" class="flex items-center gap-2" data-selection-initialized="true">
-                        <span data-id="184" style="width:10px;height:10px;border-radius:50%;background:#e879f9;display:inline-block" data-selection-initialized="true"></span>
-                        <span data-id="185" class="font-mono text-[11px] text-vtext-2 tracking-wider" data-selection-initialized="true">ORBITAL EMBLEMS (6) — VAN061–VAN090 · Series III</span>
+                        <span data-id="181" style="width:10px;height:10px;border-radius:50%;background:#e879f9;display:inline-block" data-selection-initialized="true"></span>
+                        <span data-id="182" class="font-mono text-[11px] text-vtext-2 tracking-wider" data-selection-initialized="true">ORBITAL EMBLEMS (6) — VAN061–VAN090 · Series III</span>
                     </div>
                 </div>
             </div>
@@ -3862,113 +3957,113 @@
     </main>
 
     <!-- EXPORT MODAL -->
-    <div data-id="186" id="export-modal-m9z1" class="modal-overlay" data-selection-initialized="true">
-        <div data-id="187" class="bg-vbg-3 border border-vborder rounded-xl max-w-2xl w-full mx-4 max-h-[80vh] flex flex-col" data-selection-initialized="true">
-            <div data-id="188" class="flex items-center justify-between px-5 py-4 border-b border-vborder" data-selection-initialized="true">
-                <h3 data-id="189" class="font-raj font-bold text-lg tracking-wider text-vviolet-light" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="file-text" aria-hidden="true" data-id="190" class="lucide lucide-file-text w-5 h-5 inline mr-2 align-middle" data-selection-initialized="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+    <div data-id="183" id="export-modal-m9z1" class="modal-overlay" data-selection-initialized="true">
+        <div data-id="184" class="bg-vbg-3 border border-vborder rounded-xl max-w-2xl w-full mx-4 max-h-[80vh] flex flex-col" data-selection-initialized="true">
+            <div data-id="185" class="flex items-center justify-between px-5 py-4 border-b border-vborder" data-selection-initialized="true">
+                <h3 data-id="186" class="font-raj font-bold text-lg tracking-wider text-vviolet-light" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="file-text" aria-hidden="true" data-id="187" class="lucide lucide-file-text w-5 h-5 inline mr-2 align-middle" data-selection-initialized="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
                     FLEET REGISTRY EXPORT
                 </h3>
-                <button data-id="191" id="modal-close-x2y4" class="p-2 text-vtext-3 hover:text-vtext-1 transition-colors" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="192" class="lucide lucide-x w-5 h-5" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                <button data-id="188" id="modal-close-x2y4" class="p-2 text-vtext-3 hover:text-vtext-1 transition-colors" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="189" class="lucide lucide-x w-5 h-5" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
                 </button>
             </div>
-            <div data-id="193" class="overflow-y-auto flex-1 p-5" data-selection-initialized="true">
-                <pre data-id="194" id="export-content-c3z5" class="font-mono text-[10px] md:text-xs text-vcyan whitespace-pre-wrap leading-relaxed" data-selection-initialized="true"></pre>
+            <div data-id="190" class="overflow-y-auto flex-1 p-5" data-selection-initialized="true">
+                <pre data-id="191" id="export-content-c3z5" class="font-mono text-[10px] md:text-xs text-vcyan whitespace-pre-wrap leading-relaxed" data-selection-initialized="true"></pre>
             </div>
         </div>
     </div>
 
     <!-- PRINT OPTIONS MODAL -->
-    <div data-id="195" id="print-modal-p1m1" class="modal-overlay" data-selection-initialized="true">
-        <div data-id="196" class="bg-vbg-3 border border-vborder rounded-xl max-w-md w-full mx-4 flex flex-col" data-selection-initialized="true">
-            <div data-id="197" class="flex items-center justify-between px-5 py-4 border-b border-vborder" data-selection-initialized="true">
-                <h3 data-id="198" class="font-raj font-bold text-lg tracking-wider text-vviolet-light" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="printer" aria-hidden="true" data-id="199" class="lucide lucide-printer w-5 h-5 inline mr-2 align-middle" data-selection-initialized="true"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg>
+    <div data-id="192" id="print-modal-p1m1" class="modal-overlay" data-selection-initialized="true">
+        <div data-id="193" class="bg-vbg-3 border border-vborder rounded-xl max-w-md w-full mx-4 flex flex-col" data-selection-initialized="true">
+            <div data-id="194" class="flex items-center justify-between px-5 py-4 border-b border-vborder" data-selection-initialized="true">
+                <h3 data-id="195" class="font-raj font-bold text-lg tracking-wider text-vviolet-light" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="printer" aria-hidden="true" data-id="196" class="lucide lucide-printer w-5 h-5 inline mr-2 align-middle" data-selection-initialized="true"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg>
                     VAMSYS PRINT EXPORT
                 </h3>
-                <button data-id="200" id="print-modal-close-pc1" class="p-2 text-vtext-3 hover:text-vtext-1 transition-colors" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="201" class="lucide lucide-x w-5 h-5" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                <button data-id="197" id="print-modal-close-pc1" class="p-2 text-vtext-3 hover:text-vtext-1 transition-colors" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="198" class="lucide lucide-x w-5 h-5" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
                 </button>
             </div>
-            <div data-id="202" class="p-5 space-y-5" data-selection-initialized="true">
-                <div data-id="203" data-selection-initialized="true">
-                    <p data-id="204" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">PRINT SCOPE</p>
-                    <div data-id="205" class="space-y-2" data-selection-initialized="true">
-                        <label data-id="206" class="api-radio-label" data-selection-initialized="true"><input data-id="207" type="radio" name="print-scope" value="all" checked="" data-selection-initialized="true"> ALL 31 FRAMES</label>
-                        <label data-id="208" class="api-radio-label" data-selection-initialized="true"><input data-id="209" type="radio" name="print-scope" value="filtered" data-selection-initialized="true"> CURRENT FILTER SELECTION (<span data-id="210" id="print-filter-count-pf1" data-selection-initialized="true">31</span> frames)</label>
-                        <label data-id="211" class="api-radio-label" data-selection-initialized="true"><input data-id="212" type="radio" name="print-scope" value="active" data-selection-initialized="true"> ACTIVE FRAMES ONLY</label>
+            <div data-id="199" class="p-5 space-y-5" data-selection-initialized="true">
+                <div data-id="200" data-selection-initialized="true">
+                    <p data-id="201" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">PRINT SCOPE</p>
+                    <div data-id="202" class="space-y-2" data-selection-initialized="true">
+                        <label data-id="203" class="api-radio-label" data-selection-initialized="true"><input data-id="204" type="radio" name="print-scope" value="all" checked="" data-selection-initialized="true"> ALL 31 FRAMES</label>
+                        <label data-id="205" class="api-radio-label" data-selection-initialized="true"><input data-id="206" type="radio" name="print-scope" value="filtered" data-selection-initialized="true"> CURRENT FILTER SELECTION (<span data-id="207" id="print-filter-count-pf1" data-selection-initialized="true">31</span> frames)</label>
+                        <label data-id="208" class="api-radio-label" data-selection-initialized="true"><input data-id="209" type="radio" name="print-scope" value="active" data-selection-initialized="true"> ACTIVE FRAMES ONLY</label>
                     </div>
                 </div>
-                <div data-id="213" data-selection-initialized="true">
-                    <p data-id="214" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">LAYOUT</p>
-                    <div data-id="215" class="space-y-2" data-selection-initialized="true">
-                        <label data-id="216" class="api-radio-label" data-selection-initialized="true"><input data-id="217" type="radio" name="print-layout" value="2" data-selection-initialized="true"> 2 CARDS PER PAGE</label>
-                        <label data-id="218" class="api-radio-label" data-selection-initialized="true"><input data-id="219" type="radio" name="print-layout" value="4" checked="" data-selection-initialized="true"> 4 CARDS PER PAGE</label>
+                <div data-id="210" data-selection-initialized="true">
+                    <p data-id="211" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">LAYOUT</p>
+                    <div data-id="212" class="space-y-2" data-selection-initialized="true">
+                        <label data-id="213" class="api-radio-label" data-selection-initialized="true"><input data-id="214" type="radio" name="print-layout" value="2" data-selection-initialized="true"> 2 CARDS PER PAGE</label>
+                        <label data-id="215" class="api-radio-label" data-selection-initialized="true"><input data-id="216" type="radio" name="print-layout" value="4" checked="" data-selection-initialized="true"> 4 CARDS PER PAGE</label>
                     </div>
                 </div>
-                <div data-id="220" data-selection-initialized="true">
-                    <p data-id="221" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">INCLUDE</p>
-                    <div data-id="222" class="space-y-2" data-selection-initialized="true">
-                        <label data-id="223" class="api-radio-label" data-selection-initialized="true"><input data-id="224" type="checkbox" id="print-inc-emblem" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> Emblem designation</label>
-                        <label data-id="225" class="api-radio-label" data-selection-initialized="true"><input data-id="226" type="checkbox" id="print-inc-tags" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> Operational tags</label>
-                        <label data-id="227" class="api-radio-label" data-selection-initialized="true"><input data-id="228" type="checkbox" id="print-inc-vamsys" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> VAMSYS ID</label>
-                        <label data-id="229" class="api-radio-label" data-selection-initialized="true"><input data-id="230" type="checkbox" id="print-inc-specs" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> Technical specs (expanded)</label>
+                <div data-id="217" data-selection-initialized="true">
+                    <p data-id="218" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">INCLUDE</p>
+                    <div data-id="219" class="space-y-2" data-selection-initialized="true">
+                        <label data-id="220" class="api-radio-label" data-selection-initialized="true"><input data-id="221" type="checkbox" id="print-inc-emblem" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> Emblem designation</label>
+                        <label data-id="222" class="api-radio-label" data-selection-initialized="true"><input data-id="223" type="checkbox" id="print-inc-tags" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> Operational tags</label>
+                        <label data-id="224" class="api-radio-label" data-selection-initialized="true"><input data-id="225" type="checkbox" id="print-inc-vamsys" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> VAMSYS ID</label>
+                        <label data-id="226" class="api-radio-label" data-selection-initialized="true"><input data-id="227" type="checkbox" id="print-inc-specs" checked="" style="accent-color:var(--violet);" data-selection-initialized="true"> Technical specs (expanded)</label>
                     </div>
                 </div>
-                <div data-id="231" class="flex gap-3 pt-2" data-selection-initialized="true">
-                    <button data-id="232" id="print-cancel-btn-pcb1" class="tab-btn flex-1" style="text-align:center;" data-selection-initialized="true">CANCEL</button>
-                    <button data-id="233" id="print-now-btn-pnb1" class="auth-btn flex-1" style="font-size:12px;padding:10px 16px;" data-selection-initialized="true">PRINT NOW</button>
+                <div data-id="228" class="flex gap-3 pt-2" data-selection-initialized="true">
+                    <button data-id="229" id="print-cancel-btn-pcb1" class="tab-btn flex-1" style="text-align:center;" data-selection-initialized="true">CANCEL</button>
+                    <button data-id="230" id="print-now-btn-pnb1" class="auth-btn flex-1" style="font-size:12px;padding:10px 16px;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#f1f0ff;font-family:'Space Mono',monospace;font-weight:700;letter-spacing:2px;border:1px solid #a78bfa;border-radius:6px;cursor:pointer;" data-selection-initialized="true">PRINT NOW</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- API CONFIG BACKDROP -->
-    <div data-id="234" id="api-config-backdrop" data-selection-initialized="true"></div>
+    <div data-id="231" id="api-config-backdrop" data-selection-initialized="true"></div>
 
     <!-- API CONFIG PANEL -->
-    <div data-id="235" id="api-config-panel" data-selection-initialized="true">
-        <div data-id="236" class="p-5" data-selection-initialized="true">
-            <div data-id="237" class="flex items-center justify-between mb-5" data-selection-initialized="true">
-                <h3 data-id="238" class="font-raj font-bold text-lg tracking-wider text-vviolet-light" data-selection-initialized="true">API CONFIGURATION</h3>
-                <button data-id="239" id="api-panel-close-apc1" class="p-2 text-vtext-3 hover:text-vtext-1 transition-colors" data-selection-initialized="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="240" class="lucide lucide-x w-5 h-5" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    <div data-id="232" id="api-config-panel" data-selection-initialized="true">
+        <div data-id="233" class="p-5" data-selection-initialized="true">
+            <div data-id="234" class="flex items-center justify-between mb-5" data-selection-initialized="true">
+                <h3 data-id="235" class="font-raj font-bold text-lg tracking-wider text-vviolet-light" data-selection-initialized="true">API CONFIGURATION</h3>
+                <button data-id="236" id="api-panel-close-apc1" class="p-2 text-vtext-3 hover:text-vtext-1 transition-colors" data-selection-initialized="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="237" class="lucide lucide-x w-5 h-5" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
                 </button>
             </div>
-            <div data-id="241" class="space-y-5" data-selection-initialized="true">
-                <div data-id="242" data-selection-initialized="true">
-                    <p data-id="243" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">DATA SOURCE MODE</p>
-                    <div data-id="244" class="space-y-2" data-selection-initialized="true">
-                        <label data-id="245" class="api-radio-label" data-selection-initialized="true"><input data-id="246" type="radio" name="api-mode" value="local" checked="" data-selection-initialized="true"> LOCAL</label>
-                        <label data-id="247" class="api-radio-label" data-selection-initialized="true"><input data-id="248" type="radio" name="api-mode" value="remote" data-selection-initialized="true"> REMOTE API</label>
+            <div data-id="238" class="space-y-5" data-selection-initialized="true">
+                <div data-id="239" data-selection-initialized="true">
+                    <p data-id="240" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">DATA SOURCE MODE</p>
+                    <div data-id="241" class="space-y-2" data-selection-initialized="true">
+                        <label data-id="242" class="api-radio-label" data-selection-initialized="true"><input data-id="243" type="radio" name="api-mode" value="local" checked="" data-selection-initialized="true"> LOCAL</label>
+                        <label data-id="244" class="api-radio-label" data-selection-initialized="true"><input data-id="245" type="radio" name="api-mode" value="remote" data-selection-initialized="true"> REMOTE API</label>
                     </div>
+                </div>
+                <div data-id="246" data-selection-initialized="true">
+                    <p data-id="247" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">API ENDPOINT URL</p>
+                    <input data-id="248" type="text" id="api-url-input-au1" class="api-input" placeholder="https://api.example.com/fleet" data-selection-initialized="true">
                 </div>
                 <div data-id="249" data-selection-initialized="true">
-                    <p data-id="250" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">API ENDPOINT URL</p>
-                    <input data-id="251" type="text" id="api-url-input-au1" class="api-input" placeholder="https://api.example.com/fleet" data-selection-initialized="true">
+                    <p data-id="250" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">POLL INTERVAL (seconds)</p>
+                    <input data-id="251" type="number" id="api-poll-input-ap1" class="api-input" value="30" min="5" max="600" data-selection-initialized="true">
                 </div>
                 <div data-id="252" data-selection-initialized="true">
-                    <p data-id="253" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">POLL INTERVAL (seconds)</p>
-                    <input data-id="254" type="number" id="api-poll-input-ap1" class="api-input" value="30" min="5" max="600" data-selection-initialized="true">
+                    <p data-id="253" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">API KEY (optional)</p>
+                    <input data-id="254" type="text" id="api-key-input-ak1" class="api-input" placeholder="Enter API key..." data-selection-initialized="true">
                 </div>
-                <div data-id="255" data-selection-initialized="true">
-                    <p data-id="256" class="font-mono text-[10px] text-vcyan tracking-widest mb-2" data-selection-initialized="true">API KEY (optional)</p>
-                    <input data-id="257" type="text" id="api-key-input-ak1" class="api-input" placeholder="Enter API key..." data-selection-initialized="true">
+                <div data-id="255" class="flex gap-2" data-selection-initialized="true">
+                    <button data-id="256" id="api-test-btn-at1" class="tab-btn flex-1" style="font-size:10px;padding:8px 10px;text-align:center;border-color:var(--cyan);color:var(--cyan);" data-selection-initialized="true">TEST CONNECTION</button>
+                    <button data-id="257" id="api-apply-btn-aa1" class="tab-btn flex-1" style="font-size:10px;padding:8px 10px;text-align:center;background:linear-gradient(135deg,#7c3aed,#6d28d9);color:#f1f0ff;border:1px solid #a78bfa;" data-selection-initialized="true">APPLY &amp; RELOAD</button>
                 </div>
-                <div data-id="258" class="flex gap-2" data-selection-initialized="true">
-                    <button data-id="259" id="api-test-btn-at1" class="tab-btn flex-1" style="font-size:10px;padding:8px 10px;text-align:center;border-color:var(--cyan);color:var(--cyan);" data-selection-initialized="true">TEST CONNECTION</button>
-                    <button data-id="260" id="api-apply-btn-aa1" class="auth-btn flex-1" style="font-size:10px;padding:8px 10px;" data-selection-initialized="true">APPLY &amp; RELOAD</button>
-                </div>
-                <div data-id="261" id="api-test-result-atr1" class="font-mono text-[10px] tracking-wider h-4" data-selection-initialized="true"></div>
-                <div data-id="262" class="border-t border-vborder pt-3 space-y-1" data-selection-initialized="true">
-                    <div data-id="263" class="flex justify-between font-mono text-[10px]" data-selection-initialized="true">
-                        <span data-id="264" class="text-vtext-3" data-selection-initialized="true">LAST SYNC</span>
-                        <span data-id="265" id="api-last-sync-als1" class="text-vtext-2" data-selection-initialized="true">Never</span>
+                <div data-id="258" id="api-test-result-atr1" class="font-mono text-[10px] tracking-wider h-4" data-selection-initialized="true"></div>
+                <div data-id="259" class="border-t border-vborder pt-3 space-y-1" data-selection-initialized="true">
+                    <div data-id="260" class="flex justify-between font-mono text-[10px]" data-selection-initialized="true">
+                        <span data-id="261" class="text-vtext-3" data-selection-initialized="true">LAST SYNC</span>
+                        <span data-id="262" id="api-last-sync-als1" class="text-vtext-2" data-selection-initialized="true">Never</span>
                     </div>
-                    <div data-id="266" class="flex justify-between font-mono text-[10px]" data-selection-initialized="true">
-                        <span data-id="267" class="text-vtext-3" data-selection-initialized="true">STATUS</span>
-                        <span data-id="268" id="api-status-as1" class="text-vtext-2" data-selection-initialized="true">LOCAL DATA ACTIVE</span>
+                    <div data-id="263" class="flex justify-between font-mono text-[10px]" data-selection-initialized="true">
+                        <span data-id="264" class="text-vtext-3" data-selection-initialized="true">STATUS</span>
+                        <span data-id="265" id="api-status-as1" class="text-vtext-2" data-selection-initialized="true">LOCAL DATA ACTIVE</span>
                     </div>
                 </div>
             </div>
@@ -3976,36 +4071,35 @@
     </div>
 
     <!-- MOBILE NAV MENU -->
-    <nav data-id="269" id="mobile-menu-m1n2" class="hidden fixed inset-0 bg-vbg-1/95 z-[60] flex flex-col p-6" data-selection-initialized="true">
-        <button data-id="270" id="mobile-menu-close-c4d5" class="self-end p-2 text-vtext-2 hover:text-vtext-1" data-selection-initialized="true">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="271" class="lucide lucide-x w-6 h-6" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+    <nav data-id="266" id="mobile-menu-m1n2" class="hidden fixed inset-0 bg-vbg-1/95 z-[60] flex flex-col p-6" data-selection-initialized="true">
+        <button data-id="267" id="mobile-menu-close-c4d5" class="self-end p-2 text-vtext-2 hover:text-vtext-1" data-selection-initialized="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" data-id="268" class="lucide lucide-x w-6 h-6" data-selection-initialized="true"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
         </button>
-        <div data-id="272" class="flex flex-col gap-4 mt-8" data-selection-initialized="true">
-            <button data-id="273" class="tab-btn mobile-tab active" data-view="registry" data-selection-initialized="true">FLEET REGISTRY</button>
-            <button data-id="274" class="tab-btn mobile-tab" data-view="cards" data-selection-initialized="true">VAMSYS CARDS</button>
-            <button data-id="275" class="tab-btn mobile-tab" data-view="emblems" data-selection-initialized="true">EMBLEM CODEX</button>
-            <hr data-id="276" class="border-vborder my-2" data-selection-initialized="true">
-            <button data-id="277" class="tab-btn mobile-tab-action" id="mobile-export-html-btn" data-selection-initialized="true">EXPORT HTML</button>
-            <button data-id="278" class="tab-btn mobile-tab-action" id="mobile-export-btn" data-selection-initialized="true">EXPORT</button>
+        <div data-id="269" class="flex flex-col gap-4 mt-8" data-selection-initialized="true">
+            <button data-id="270" class="tab-btn mobile-tab active" data-view="registry" data-selection-initialized="true">FLEET REGISTRY</button>
+            <button data-id="271" class="tab-btn mobile-tab" data-view="cards" data-selection-initialized="true">VAMSYS CARDS</button>
+            <button data-id="272" class="tab-btn mobile-tab" data-view="emblems" data-selection-initialized="true">EMBLEM CODEX</button>
+            <hr data-id="273" class="border-vborder my-2" data-selection-initialized="true">
+            <button data-id="274" class="tab-btn mobile-tab-action" id="mobile-export-html-btn" data-selection-initialized="true">EXPORT HTML</button>
+            <button data-id="275" class="tab-btn mobile-tab-action" id="mobile-export-btn" data-selection-initialized="true">EXPORT</button>
         </div>
     </nav>
 
-    <footer data-id="279" id="footer-f0g1" class="border-t border-vborder bg-vbg-2 mt-8" data-selection-initialized="true">
-        <div data-id="280" class="max-w-[1600px] mx-auto px-4 md:px-6 py-6 text-center" data-selection-initialized="true">
-            <p data-id="281" class="font-mono text-[10px] text-vtext-3 tracking-widest leading-relaxed" data-selection-initialized="true">
-                VAMSYS · VANTIS AIR CARGO · FLEET INTELLIGENCE DIVISION<br data-id="282" data-selection-initialized="true">
-                CLASSIFICATION: INTERNAL — AIRGRID INTELLIGENCE PLATFORM<br data-id="283" data-selection-initialized="true">
-                REGISTRY VERSION: 2.6.0 · COMPILED: 2026-06-22 · FRAMES: 31 B77F<br data-id="284" data-selection-initialized="true">
+    <footer data-id="276" id="footer-f0g1" class="border-t border-vborder bg-vbg-2 mt-8" data-selection-initialized="true">
+        <div data-id="277" class="max-w-[1600px] mx-auto px-4 md:px-6 py-6 text-center" data-selection-initialized="true">
+            <p data-id="278" class="font-mono text-[10px] text-vtext-3 tracking-widest leading-relaxed" data-selection-initialized="true">
+                VAMSYS · VANTIS AIR CARGO · FLEET INTELLIGENCE DIVISION<br data-id="279" data-selection-initialized="true">
+                CLASSIFICATION: INTERNAL — AIRGRID INTELLIGENCE PLATFORM<br data-id="280" data-selection-initialized="true">
+                REGISTRY VERSION: 2.6.0 · COMPILED: 2026-06-22 · FRAMES: 31 B77F<br data-id="281" data-selection-initialized="true">
                 © 2026 VANTIS INTERSTELLAR OPERATIONS
             </p>
-            <p data-id="285" class="font-inter text-[10px] text-vtext-3 mt-3 opacity-60" data-selection-initialized="true">Made by Copilot</p>
+            <p data-id="282" class="font-inter text-[10px] text-vtext-3 mt-3 opacity-60" data-selection-initialized="true">Made by Copilot</p>
         </div>
     </footer>
 
-    <script nonce="">
-    // ─── DEFAULT_CREDENTIALS ───
-    const DEFAULT_CREDENTIALS = { operatorId: 'VANTIS-OPS', accessCode: 'VX2026' };
+    </div><!-- END #mainApp -->
 
+    <script nonce="">
     // ─── Safe Lucide icon initialization helper ───
     function safeCreateIcons() {
       if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
@@ -4013,43 +4107,51 @@
       }
     }
 
-    // ─── LOGIN GATE ───
-    (function initLoginGate() {
-      const gate = document.getElementById('login-gate');
-      const authBtn = document.getElementById('login-auth-btn');
-      const opInput = document.getElementById('login-operator-id');
-      const acInput = document.getElementById('login-access-code');
-      const msgEl = document.getElementById('login-msg');
-      const formEl = document.getElementById('login-form-lf1');
+    // ═══════════════════════════════════════════════════════
+    // AUTHENTICATION GATE
+    // ═══════════════════════════════════════════════════════
+    const DEFAULT_CREDENTIALS = {
+      operatorId: 'VANTIS-OPS',
+      accessCode: 'VX2026'
+    };
 
-      if (sessionStorage.getItem('vantis-auth') === 'true') {
-        gate.style.display = 'none';
+    function initAuth() {
+      const isAuthenticated = sessionStorage.getItem('vamsys_auth') === 'true';
+      if (isAuthenticated) {
+        document.getElementById('loginGate').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+      } else {
+        document.getElementById('loginGate').style.display = 'flex';
+        document.getElementById('mainApp').style.display = 'none';
+        setTimeout(function() {
+          var opField = document.getElementById('operatorId');
+          if (opField) opField.focus();
+        }, 100);
       }
+    }
 
-      function attemptAuth() {
-        const opVal = opInput.value.trim();
-        const acVal = acInput.value.trim();
-        if (opVal === DEFAULT_CREDENTIALS.operatorId && acVal === DEFAULT_CREDENTIALS.accessCode) {
-          msgEl.style.color = '#10b981';
-          msgEl.textContent = 'ACCESS GRANTED — WELCOME, OPERATOR';
-          sessionStorage.setItem('vantis-auth', 'true');
-          setTimeout(() => {
-            gate.classList.add('fade-out');
-            setTimeout(() => { gate.style.display = 'none'; }, 650);
-          }, 800);
-        } else {
-          msgEl.style.color = '#ef4444';
-          msgEl.textContent = 'AUTHENTICATION FAILED — INVALID CREDENTIALS';
-          acInput.value = '';
-          formEl.classList.add('shake');
-          setTimeout(() => formEl.classList.remove('shake'), 600);
-        }
+    function handleLogin(e) {
+      e.preventDefault();
+      var enteredId = document.getElementById('operatorId').value.trim();
+      var enteredCode = document.getElementById('accessCode').value.trim();
+      var errorEl = document.getElementById('loginError');
+      var cardEl = document.getElementById('loginCard');
+
+      if (enteredId === DEFAULT_CREDENTIALS.operatorId && enteredCode === DEFAULT_CREDENTIALS.accessCode) {
+        sessionStorage.setItem('vamsys_auth', 'true');
+        document.getElementById('loginGate').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        // Re-initialize icons and render after showing the app
+        safeCreateIcons();
+      } else {
+        errorEl.style.display = 'block';
+        cardEl.classList.remove('shake');
+        void cardEl.offsetWidth; // reflow to restart animation
+        cardEl.classList.add('shake');
+        document.getElementById('accessCode').value = '';
+        document.getElementById('accessCode').focus();
       }
-
-      authBtn.addEventListener('click', attemptAuth);
-      acInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') attemptAuth(); });
-      opInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') acInput.focus(); });
-    })();
+    }
 
     // ─── FLEET DATA ───
     const FLEET_LOCAL = [
@@ -4753,7 +4855,6 @@
         desc: 'The Gravity Well designates the TITAN class — maximum payload ultra-density operations commanding the heaviest cargo configurations in the VANTIS fleet. The warped grid represents the immense logistical mass these frames carry, distorting standard routing algorithms around their corridors. What other frames route around, TITAN frames fly through.',
         svg: `<svg viewBox="0 0 200 200" class="emblem-svg" width="200" height="200">
           <rect width="200" height="200" rx="16" fill="#050508"/>
-          <!-- Horizontal warped grid lines -->
           <path d="M10,40 Q100,42 190,40" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"/>
           <path d="M10,55 Q100,60 190,55" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"/>
           <path d="M10,70 Q100,82 190,70" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.6"/>
@@ -4764,7 +4865,6 @@
           <path d="M10,145 Q100,138 190,145" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"/>
           <path d="M10,160 Q100,158 190,160" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"/>
           <path d="M10,175 Q100,174 190,175" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.45"/>
-          <!-- Vertical warped grid lines -->
           <path d="M40,10 Q42,100 40,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"/>
           <path d="M55,10 Q60,100 55,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"/>
           <path d="M70,10 Q82,100 70,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.6"/>
@@ -4775,17 +4875,14 @@
           <path d="M145,10 Q138,100 145,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.55"/>
           <path d="M160,10 Q158,100 160,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.5"/>
           <path d="M175,10 Q174,100 175,190" fill="none" stroke="#1e2a3a" stroke-width="0.75" opacity="0.45"/>
-          <!-- Tidal force arcs -->
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4"/>
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4" transform="rotate(45,100,100)"/>
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4" transform="rotate(90,100,100)"/>
           <ellipse cx="100" cy="100" rx="70" ry="8" fill="none" stroke="#475569" stroke-width="0.5" opacity="0.4" transform="rotate(135,100,100)"/>
-          <!-- Infalling debris -->
           <polygon points="60,62 64,58 66,64 62,66" fill="#334155"/><polygon points="140,55 145,52 146,58" fill="#334155"/>
           <polygon points="52,130 58,126 56,134" fill="#334155"/><polygon points="148,135 152,130 154,138 150,140" fill="#334155"/>
           <polygon points="70,48 74,44 76,50" fill="#334155"/><polygon points="130,50 136,46 134,54" fill="#334155"/>
           <polygon points="55,148 60,144 58,152" fill="#334155"/><polygon points="145,150 150,146 148,154" fill="#334155"/>
-          <!-- Singularity -->
           <circle cx="100" cy="100" r="16" fill="#000000"/>
           <circle cx="100" cy="100" r="16" fill="none" stroke="#94a3b8" stroke-width="2" class="grav-pulse-ring" style="filter: drop-shadow(0 0 10px #94a3b8) drop-shadow(0 0 20px #475569)"/>
           <circle cx="100" cy="100" r="5" fill="#f1f0ff" style="filter: drop-shadow(0 0 8px #ffffff)"/>
@@ -4803,7 +4900,6 @@
             <linearGradient id="eg16r3" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#34d399" stop-opacity="0.4"/><stop offset="100%" stop-color="#34d399" stop-opacity="0"/></linearGradient>
           </defs>
           <rect width="200" height="200" rx="16" fill="#060912"/>
-          <!-- Star field -->
           <circle cx="20" cy="15" r="1" fill="#f1f0ff" opacity="0.4"/><circle cx="45" cy="8" r="1.5" fill="#f1f0ff" opacity="0.4"/>
           <circle cx="80" cy="12" r="1" fill="#f1f0ff" opacity="0.4"/><circle cx="120" cy="6" r="1.5" fill="#f1f0ff" opacity="0.4"/>
           <circle cx="155" cy="18" r="1" fill="#f1f0ff" opacity="0.4"/><circle cx="175" cy="10" r="1" fill="#f1f0ff" opacity="0.4"/>
@@ -4812,21 +4908,16 @@
           <circle cx="170" cy="35" r="1" fill="#f1f0ff" opacity="0.4"/><circle cx="15" cy="50" r="1" fill="#f1f0ff" opacity="0.4"/>
           <circle cx="185" cy="45" r="1.5" fill="#f1f0ff" opacity="0.4"/><circle cx="110" cy="15" r="1" fill="#f1f0ff" opacity="0.4"/>
           <circle cx="50" cy="35" r="1" fill="#f1f0ff" opacity="0.4"/>
-          <!-- Background wash -->
           <path d="M20,0 C40,50 50,120 30,200 L70,200 C55,120 60,50 50,0 Z" fill="#4c1d95" opacity="0.2"/>
-          <!-- Aurora ribbons -->
           <path d="M35,0 C55,60 45,130 25,200 L55,200 C50,130 60,60 50,0 Z" fill="url(#eg16r1)" class="aurora-ribbon-1"/>
           <path d="M80,0 C100,70 90,140 70,200 L95,200 C90,140 105,70 95,0 Z" fill="url(#eg16r2)" class="aurora-ribbon-2"/>
           <path d="M135,0 C155,65 145,135 125,200 L145,200 C140,135 160,65 150,0 Z" fill="url(#eg16r3)" class="aurora-ribbon-3"/>
-          <!-- Aurora horizontal bands -->
           <ellipse cx="100" cy="40" rx="100" ry="4" fill="#a78bfa" opacity="0.25"/>
           <ellipse cx="100" cy="70" rx="100" ry="4" fill="#22d3ee" opacity="0.25"/>
           <ellipse cx="100" cy="100" rx="100" ry="4" fill="#a78bfa" opacity="0.25"/>
           <ellipse cx="100" cy="130" rx="100" ry="4" fill="#22d3ee" opacity="0.25"/>
           <ellipse cx="100" cy="160" rx="100" ry="4" fill="#a78bfa" opacity="0.25"/>
-          <!-- Ground reflection -->
           <line x1="10" y1="185" x2="190" y2="185" stroke="#818cf8" stroke-width="0.5" opacity="0.2"/>
-          <!-- V logo -->
           <path d="M84,92 L100,118 L116,92" fill="none" stroke="#ffffff" stroke-width="3" style="filter: drop-shadow(0 0 6px #ffffff)"/>
           <text x="100" y="180" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#818cf8" letter-spacing="3">AURORA VEIL</text>
         </svg>`
@@ -4836,29 +4927,22 @@
         desc: 'The Neutron Shield designates the BASTION class — armored high-security escort and vault transport frames operating under VANTIS IRONCLAD protocols. The triple-hex lattice represents three independent security shells — physical, electronic, and jurisdictional — that BASTION frames maintain at all times. These are the most heavily protected frames in the VANTIS fleet, cleared for bullion, state cargo, and classified consignments.',
         svg: `<svg viewBox="0 0 200 200" class="emblem-svg" width="200" height="200" style="filter: drop-shadow(0 0 16px rgba(251,146,60,0.3))">
           <rect width="200" height="200" rx="16" fill="#0a0805"/>
-          <!-- Structural reinforcement lines -->
           <line x1="100" y1="20" x2="100" y2="180" stroke="#1e1a0e" stroke-width="0.5"/>
           <line x1="30.72" y1="60" x2="169.28" y2="140" stroke="#1e1a0e" stroke-width="0.5"/>
           <line x1="30.72" y1="140" x2="169.28" y2="60" stroke="#1e1a0e" stroke-width="0.5"/>
-          <!-- Outer hexagon -->
           <polygon points="100,20 169.28,60 169.28,140 100,180 30.72,140 30.72,60" fill="none" stroke="#fb923c" stroke-width="3" class="shield-outer-hex"/>
-          <!-- Fill segments -->
           <polygon points="100,20 169.28,60 100,100" fill="#1a0e05" opacity="0.3"/>
           <polygon points="100,20 30.72,60 100,100" fill="#fb923c" opacity="0.08"/>
           <polygon points="169.28,60 169.28,140 100,100" fill="#1a0e05" opacity="0.3"/>
           <polygon points="30.72,60 30.72,140 100,100" fill="#fb923c" opacity="0.08"/>
           <polygon points="169.28,140 100,180 100,100" fill="#1a0e05" opacity="0.3"/>
           <polygon points="30.72,140 100,180 100,100" fill="#fb923c" opacity="0.08"/>
-          <!-- Middle hexagon -->
           <polygon points="100,38 147.66,70 147.66,130 100,162 52.34,130 52.34,70" fill="none" stroke="#7c3aed" stroke-width="1.5" opacity="0.7"/>
-          <!-- Inner hexagon -->
           <polygon points="100,56 126.04,78 126.04,122 100,144 73.96,122 73.96,78" fill="none" stroke="#fb923c" stroke-width="1" opacity="0.5"/>
-          <!-- Battle damage arcs -->
           <path d="M160,55 Q172,62 168,75" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/>
           <path d="M40,130 Q28,138 32,150" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/>
           <path d="M105,22 Q115,18 125,24" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/>
           <path d="M160,145 Q170,140 166,130" fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6"/>
-          <!-- Central core -->
           <circle cx="100" cy="100" r="20" fill="#0a0a14" stroke="#fb923c" stroke-width="2" style="filter: drop-shadow(0 0 10px #fb923c)"/>
           <path d="M90,92 L100,112 L110,92" fill="none" stroke="#fb923c" stroke-width="2.5"/>
           <text x="100" y="185" text-anchor="middle" font-family="Space Mono,monospace" font-size="8" fill="#fb923c" letter-spacing="2">NEUTRON SHIELD</text>
@@ -4874,23 +4958,18 @@
             <filter id="glow18"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
           </defs>
           <rect width="200" height="200" rx="16" fill="url(#eg18bg)"/>
-          <!-- Dimensional rift lines (diagonals) -->
           <line x1="0" y1="0" x2="200" y2="200" stroke="#e879f9" stroke-width="0.5" opacity="0.3"/>
           <line x1="200" y1="0" x2="0" y2="200" stroke="#e879f9" stroke-width="0.5" opacity="0.3"/>
           <line x1="100" y1="0" x2="100" y2="200" stroke="#e879f9" stroke-width="0.5" opacity="0.2"/>
           <line x1="0" y1="100" x2="200" y2="100" stroke="#e879f9" stroke-width="0.5" opacity="0.2"/>
-          <!-- Entry corridor approach lines -->
           <line x1="0" y1="90" x2="30" y2="96" stroke="#a78bfa" stroke-width="1" stroke-dasharray="8 4" opacity="0.5"/>
           <line x1="0" y1="110" x2="30" y2="104" stroke="#a78bfa" stroke-width="1" stroke-dasharray="8 4" opacity="0.5"/>
-          <!-- Inner vortex rings -->
           <circle cx="100" cy="100" r="60" fill="none" stroke="#c026d3" stroke-width="1.5" class="warp-ring-60"/>
           <circle cx="100" cy="100" r="45" fill="none" stroke="#a21caf" stroke-width="1.2" class="warp-ring-45"/>
           <circle cx="100" cy="100" r="30" fill="none" stroke="#86198f" stroke-width="1" class="warp-ring-30"/>
           <circle cx="100" cy="100" r="15" fill="none" stroke="#701a75" stroke-width="0.8" class="warp-ring-15"/>
           <circle cx="100" cy="100" r="10" fill="url(#eg18core)"/>
-          <!-- Outer gate ring -->
           <circle cx="100" cy="100" r="75" fill="none" stroke="#e879f9" stroke-width="4" class="gate-pulse-ring"/>
-          <!-- Gate energy arcs (8 docking ports) -->
           ${[0,45,90,135,180,225,270,315].map(a => {
             const r = 75;
             const aStart = (a - 6) * Math.PI / 180;
@@ -4901,7 +4980,6 @@
             const y2 = 100 + Math.sin(aEnd) * r;
             return `<path d="M${x1},${y1} A${r},${r} 0 0,1 ${x2},${y2}" fill="none" stroke="#e879f9" stroke-width="3" style="filter: drop-shadow(0 0 6px #e879f9)"/>`;
           }).join('')}
-          <!-- V logo at center -->
           <path d="M86,88 L100,116 L114,88" fill="none" stroke="#ffffff" stroke-width="3" filter="url(#glow18)"/>
           <text x="100" y="185" text-anchor="middle" font-family="Space Mono,monospace" font-size="9" fill="#e879f9" letter-spacing="3">WARP GATE</text>
         </svg>`
@@ -5319,11 +5397,25 @@
       }
     }
 
-    // Ensure lucide defer script has loaded before initializing
+    // ─── BOOT SEQUENCE ───
+    function boot() {
+      // Wire up login form
+      var loginForm = document.getElementById('loginForm');
+      if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+      }
+
+      // Check auth state
+      initAuth();
+
+      // Always initialize the app (it's hidden if not authed)
+      initApp();
+    }
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initApp);
+      document.addEventListener('DOMContentLoaded', boot);
     } else {
-      setTimeout(initApp, 0);
+      setTimeout(boot, 0);
     }
     </script>
 <script nonce="">
